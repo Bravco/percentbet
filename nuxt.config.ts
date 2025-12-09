@@ -11,5 +11,18 @@ export default defineNuxtConfig({
   },
   colorMode: {
     preference: "light"
+  },
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: "en"
+      },
+      title: "PercentBet - %bet",
+      meta: [
+        { name: "title", content: "PercentBet - %bet" },
+        { name: "description", content: "An AI-powered tool that finds mispriced prediction markets and shows you your percentage edge." },
+        { name: "keywords", content: "prediction markets, ai, trading, prediction markets ai" }
+      ]
+    }
   }
 })
