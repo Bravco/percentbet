@@ -35,13 +35,22 @@
                 <UContainer>
                     <UFooterColumns :columns="columns">
                         <template #right>
-                            <UFormField name="email" label="Subscribe to our newsletter" description="Stay updated on new releases, features and discounts." size="lg">
-                                <UInput type="email" placeholder="your@email.com" class="w-full">
-                                    <template #trailing>
-                                        <UButton type="submit" size="xs" color="neutral" label="Subscribe" class="cursor-pointer"/>
-                                    </template>
-                                </UInput>
-                            </UFormField>
+                            <UForm :schema="schema" :state="state" @submit="onSubmit">
+                                <UFormField name="email" label="Subscribe to our newsletter" description="Stay updated on new releases, features and discounts." size="lg" required>
+                                    <UInput v-model="state.email" type="email" placeholder="your@email.com" class="w-full">
+                                        <template #trailing>
+                                            <UButton
+                                                type="submit"
+                                                size="xs"
+                                                color="neutral"
+                                                :label="loading ? '' : 'Subscribe'"
+                                                class="cursor-pointer"
+                                                :disabled="loading"
+                                            />
+                                        </template>
+                                    </UInput>
+                                </UFormField>
+                            </UForm>
                         </template>
                     </UFooterColumns>
                 </UContainer>
@@ -62,8 +71,22 @@
 </template>
 
 <script setup lang="ts">
+    import * as v from "valibot";
+    import type { FormSubmitEvent } from "@nuxt/ui";
     import type { NavigationMenuItem } from "@nuxt/ui";
     import type { FooterColumn } from "@nuxt/ui";
+
+    const config = useRuntimeConfig();
+    const toast = useToast();
+
+    const schema = v.object({
+        email: v.pipe(v.string(), v.email(""))
+    });
+
+    type Schema = v.InferOutput<typeof schema>;
+
+    const state = reactive({ email: "" });
+    const loading = ref<boolean>(false);
 
     const items = ref<NavigationMenuItem[]>([
         {
@@ -140,7 +163,7 @@
             ]
         },
         {
-            label: "Contact",
+            label: "Help",
             children: [
                 {
                     label: "support@percentbet.com",
@@ -149,4 +172,29 @@
             ]
         }
     ];
+
+    async function onSubmit(event: FormSubmitEvent<Schema>) {
+        loading.value = true;
+
+        const response = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify({
+                access_key: config.public.WEB3FORMS_ACCESS_KEY,
+                from_name: "percentbet.com",
+                subject: "Newsletter",
+                email: event.data.email,
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            toast.add({ title: "You successfully subscribed to the newsletter.", color: "success" });
+            loading.value = false;
+        }
+    }
 </script>

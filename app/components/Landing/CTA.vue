@@ -10,7 +10,7 @@
             </template>
             <template #links>
                 <UForm :schema="schema" :state="state" @submit="onSubmit" class="flex flex-wrap gap-4">
-                    <UFormField name="email" size="lg">
+                    <UFormField name="email" size="lg" required>
                         <UInput v-model="state.email" type="email" placeholder="your@email.com"/>
                     </UFormField>
                     <UButton
@@ -34,7 +34,7 @@
     const toast = useToast();
 
     const schema = v.object({
-        email: v.pipe(v.string(), v.email("Must be an email"))
+        email: v.pipe(v.string(), v.email(""))
     });
 
     type Schema = v.InferOutput<typeof schema>;
