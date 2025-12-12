@@ -26,7 +26,7 @@
             </p>
         </template>
         <template #default>
-            <Placeholder class="h-150"/>
+            <Placeholder class="h-150">Coming soon... 🤫</Placeholder>
         </template>
     </UPageHero>
 </template>
