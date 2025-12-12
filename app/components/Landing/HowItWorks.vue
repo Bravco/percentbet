@@ -12,11 +12,13 @@
                 :key="index"
                 v-bind="card"
                 :reverse="true"
+                variant="subtle"
             >
                 <template #leading>
                     <UBadge :label="index+1" variant="soft"/>
                 </template>
-                <Placeholder class="h-50"/>
+                <NuxtImg v-if="card.imageUrl" :src="card.imageUrl" :alt="`how-it-works-${index+1}`" class="h-50 w-full object-cover object-center bg-default rounded-sm"/>
+                <Placeholder v-else class="h-50"/>
             </UPageCard>
         </UPageGrid>
     </UPageSection>
@@ -26,15 +28,18 @@
     const cards = ref([
         {
             title: "Paste prediction market URL",
-            description: "Copy and paste the prediction market URL you want to analyze."
+            description: "Copy and paste the prediction market URL you want to analyze.",
+            imageUrl: "/images/how-it-works-1.webp"
         },
         {
             title: "Analyze the market",
-            description: "Press the analyze button and see if you have an edge in the selected prediction market."
+            description: "Press the analyze button and see if you have an edge in the selected prediction market.",
+            imageUrl: "/images/how-it-works-2.webp"
         },
         {
             title: "Execute calculated trade",
-            description: "If there is an opportunity, take a calculated trade and let the profits pile up."
+            description: "If there is an opportunity, take a calculated trade and let the profits pile up.",
+            imageUrl: "/images/how-it-works-3.webp"
         }
     ]);
 </script>
