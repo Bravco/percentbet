@@ -8,7 +8,7 @@
         orientation="horizontal"
         :ui="{ leadingIcon: 'text-secondary' }"
     >
-        <Placeholder class="h-full"/>
+        <NuxtImg class="h-full object-contain object-center" src="/images/about.svg" alt="track"/>
     </UPageSection>
 </template>
 
