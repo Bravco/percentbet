@@ -19,11 +19,11 @@
         <UCollapsible v-for="data in markets" v-model:open="data.open" class="flex flex-col gap-4">
             <div class="w-full flex items-center justify-between gap-4 cursor-pointer">
                 <div class="w-full flex sm:flex-row flex-col sm:items-center items-start gap-4">
-                    <NuxtImg
+                    <img
                         :src="data.image"
                         alt="prediction market image"
                         class="w-16 aspect-square object-cover object-center rounded-md"
-                    />
+                    >
                     <div class="flex flex-col gap-2">
                         <h1 class="text-xl font-medium">{{ data.title }}</h1>
                         <div class="flex flex-wrap items-center gap-2">
