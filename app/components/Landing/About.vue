@@ -23,7 +23,7 @@
             icon: "i-lucide-smile"
         },
         {
-            title: "Supports Polymarket and Kalshi",
+            title: "Supports Polymarket",
             icon: "i-lucide-check"
         }
     ]);
