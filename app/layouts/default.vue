@@ -15,9 +15,9 @@
                 <div class="h-full flex flex-col justify-between">
                     <UNavigationMenu :items="items" orientation="vertical" variant="link" class="-mx-2.5"/>
                     <div class="flex gap-x-1.5 -ml-1.5">
-                        <UButton icon="i-lucide-twitter" variant="ghost" color="neutral" target="_blank" to="https://x.com"/>
-                        <UButton icon="i-lucide-instagram" variant="ghost" color="neutral" target="_blank" to="https://instagram.com"/>
-                        <UButton icon="i-lucide-youtube" variant="ghost" color="neutral" target="_blank" to="https://youtube.com"/>
+                        <UButton icon="i-lucide-twitter" variant="ghost" color="neutral" target="_blank" to="https://x.com/PercentBet"/>
+                        <!--<UButton icon="i-lucide-instagram" variant="ghost" color="neutral" target="_blank" to="https://instagram.com"/>-->
+                        <!--<UButton icon="i-lucide-youtube" variant="ghost" color="neutral" target="_blank" to="https://youtube.com"/>-->
                         <UColorModeButton class="cursor-pointer"/>
                     </div>
                 </div>
@@ -61,9 +61,9 @@
             </template>
 
             <template #right>
-                <UButton icon="i-lucide-twitter" variant="ghost" color="neutral" target="_blank" to="https://x.com"/>
-                <UButton icon="i-lucide-instagram" variant="ghost" color="neutral" target="_blank" to="https://instagram.com"/>
-                <UButton icon="i-lucide-youtube" variant="ghost" color="neutral" target="_blank" to="https://youtube.com"/>
+                <UButton icon="i-lucide-twitter" variant="ghost" color="neutral" target="_blank" to="https://x.com/PercentBet"/>
+                <!--<UButton icon="i-lucide-instagram" variant="ghost" color="neutral" target="_blank" to="https://instagram.com"/>-->
+                <!--<UButton icon="i-lucide-youtube" variant="ghost" color="neutral" target="_blank" to="https://youtube.com"/>-->
                 <UColorModeButton class="cursor-pointer"/>
             </template>
         </UFooter>
@@ -147,10 +147,10 @@
             children: [
                 {
                     label: "Twitter",
-                    to: "https://x.com",
+                    to: "https://x.com/PercentBet",
                     target: "_blank"
                 },
-                {
+                /*{
                     label: "Instagram",
                     to: "https://instagram.com",
                     target: "_blank"
@@ -159,7 +159,7 @@
                     label: "YouTube",
                     to: "https://youtube.com",
                     target: "_blank"
-                }
+                }*/
             ]
         },
         {

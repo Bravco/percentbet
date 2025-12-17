@@ -57,8 +57,8 @@
             title: "Premium",
             description: "Full-access to all the features.",
             badge: "Advanced",
-            discount: billedAnnualy.value ? "$39.99$" : undefined,
-            price: "$49.99$",
+            discount: billedAnnualy.value ? "" : undefined, // 39.99$
+            price: "??.??$", // 49.99$
             billingCycle: "/month",
             billingPeriod: `billed ${billedAnnualy.value ? "annualy" : 'monthly'}`,
             features: [
