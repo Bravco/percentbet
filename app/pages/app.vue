@@ -1,14 +1,14 @@
 <template>
     <UDashboardPanel id="app">
         <template #header>
-            <UDashboardNavbar title="App">
+            <UDashboardNavbar title="app">
                 <template #leading>
                     <UDashboardSidebarCollapse/>
                 </template>
             </UDashboardNavbar>
         </template>
         <template #body>
-            <div class="flex flex-col gap-4 sm:gap-6 lg:gap-12 w-full lg:max-w-2xl mx-auto">
+            <div class="flex flex-col gap-4 sm:gap-6 w-full lg:max-w-2xl mx-auto">
                 <UForm @submit="submit" class="space-y-2">
                     <UFormField
                         label="Polymarket Url"
@@ -22,6 +22,12 @@
                         :icon="loading ? 'i-eos-icons-loading' : ''"
                         class="cursor-pointer"
                         :disabled="loading"
+                    />
+                    <UProgress
+                        v-if="loading"
+                        v-model="loadingProgress"
+                        size="sm"
+                        class="w-full"
                     />
                 </UForm>
                 <USeparator/>
@@ -118,6 +124,8 @@
     const url = ref<string>("https://polymarket.com/event/fed-decision-in-january");
     const error = ref<boolean>(false);
     const loading = ref<boolean>(false);
+    const loadingProgress = ref<number>(0);
+    let progressInterval: NodeJS.Timeout | null = null;
     const predictionMarkets = ref<PredictionMarket[]>([]);
 
     const slug = computed<string | undefined>(() => url.value.split("/event/")[1]?.split("?")[0]);
@@ -127,6 +135,13 @@
     
         error.value = false;
         loading.value = true;
+        loadingProgress.value = 0;
+
+        progressInterval = setInterval(() => {
+            if (loadingProgress.value < 90) {
+                loadingProgress.value += Math.random()*8;
+            }
+        }, 400);
 
         try {
             const polymarketData = await $fetch<PolymarketApiResponse>(`/api/polymarket?slug=${slug.value}`);
@@ -155,10 +170,12 @@
                 }
             });
             market.analysis = analysis;
-            predictionMarkets.value.push(market);
+            predictionMarkets.value.forEach(pm => pm.selected = false);
+            predictionMarkets.value.unshift(market);
         } catch(e) {
             error.value = true;
         } finally {
+            if (progressInterval) clearInterval(progressInterval);
             loading.value = false;
         }
     }
