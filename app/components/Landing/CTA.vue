@@ -18,7 +18,7 @@
                         class="cursor-pointer"
                         :disabled="loading"
                         :icon="loading ? 'i-eos-icons-loading' : ''"
-                        :label="loading ? '' : 'Submit'"
+                        :label="loading ? 'Sending' : 'Submit'"
                     />
                 </UForm>
             </template>

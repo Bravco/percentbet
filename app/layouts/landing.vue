@@ -43,7 +43,8 @@
                                                 type="submit"
                                                 size="xs"
                                                 color="neutral"
-                                                :label="loading ? '' : 'Subscribe'"
+                                                :label="loading ? 'Sending' : 'Subscribe'"
+                                                :icon="loading ? 'i-eos-icons-loading' : ''"
                                                 class="cursor-pointer"
                                                 :disabled="loading"
                                             />
