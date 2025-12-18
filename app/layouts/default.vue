@@ -91,19 +91,23 @@
     const items = ref<NavigationMenuItem[]>([
         {
             label: "How it works",
-            to: "#how-it-works"
+            to: { path: "/", hash: "#how-it-works" },
+            active: false
         },
         {
             label: "About",
-            to: "#about"
+            to: { path: "/", hash: "#about" },
+            active: false
         },
         {
             label: "Pricing",
-            to: "#pricing",
+            to: { path: "/", hash: "#pricing" },
+            active: false
         },
         {
             label: "FAQ",
-            to: "#faq"
+            to: { path: "/", hash: "#faq" },
+            active: false
         }
     ]);
 
@@ -113,19 +117,23 @@
             children: [
                 {
                     label: "How it works",
-                    to: "#how-it-works"
+                    to: { path: "/", hash: "#how-it-works" },
+                    active: false
                 },
                 {
                     label: "About",
-                    to: "#about"
+                    to: { path: "/", hash: "#about" },
+                    active: false
                 },
                 {
                     label: "Pricing",
-                    to: "#pricing",
+                    to: { path: "/", hash: "#pricing" },
+                    active: false
                 },
                 {
                     label: "FAQ",
-                    to: "#faq"
+                    to: { path: "/", hash: "#faq" },
+                    active: false
                 }
             ]
         },
@@ -133,12 +141,10 @@
             label: "Legal",
             children: [
                 {
-                    label: "Terms of Use",
-                    to: ""
+                    label: "Terms of Use"
                 },
                 {
-                    label: "Privacy Policy",
-                    to: ""
+                    label: "Privacy Policy"
                 }
             ]
         },
