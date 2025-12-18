@@ -30,17 +30,17 @@
         {
             title: "Paste prediction market URL",
             description: "Copy and paste the prediction market URL you want to analyze.",
-            imageUrl: "/images/how-it-works-1.webp"
+            imageUrl: "/images/how-it-works-1.svg"
         },
         {
             title: "Analyze the market",
             description: "Press the analyze button and see if you have an edge in the selected prediction market.",
-            imageUrl: "/images/how-it-works-2.webp"
+            imageUrl: "/images/how-it-works-2.svg"
         },
         {
             title: "Execute calculated trade",
             description: "If there is an opportunity, take a calculated trade and let the profits pile up.",
-            imageUrl: "/images/how-it-works-3.webp"
+            imageUrl: "/images/how-it-works-3.svg"
         }
     ]);
 </script>
