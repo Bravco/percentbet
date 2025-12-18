@@ -35,7 +35,7 @@
         {
             title: "Free",
             description: "Limited version to try out the software.",
-            price: "0$",
+            price: "$0",
             features: [
                 {
                     icon: "i-lucide-circle-minus",
@@ -56,9 +56,10 @@
         {
             title: "Premium",
             description: "Full-access to all the features.",
+            class: "ring-primary bg-primary/10",
             badge: "Advanced",
-            discount: billedAnnualy.value ? "" : undefined, // 39.99$
-            price: "??.??$", // 49.99$
+            discount: billedAnnualy.value ? "" : undefined, // $39.99
+            price: "$??.??", // $49.99
             billingCycle: "/month",
             billingPeriod: `billed ${billedAnnualy.value ? "annualy" : 'monthly'}`,
             features: [
@@ -70,8 +71,7 @@
             button: {
                 label: "Upgrade now",
                 to: { path: "/", hash: "#waitlist" }
-            },
-            highlight: true
+            }
         }
     ]);
 </script>

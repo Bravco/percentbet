@@ -1,7 +1,7 @@
 <template>
-    <UDashboardPanel id="home">
+    <UDashboardPanel id="app">
         <template #header>
-            <UDashboardNavbar title="Home">
+            <UDashboardNavbar title="App">
                 <template #leading>
                     <UDashboardSidebarCollapse/>
                 </template>

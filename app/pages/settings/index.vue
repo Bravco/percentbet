@@ -23,7 +23,7 @@
                 description="Used to sign in, for email receipts and product updates."
                 class="flex max-sm:flex-col justify-between items-start gap-4"
             >
-                <UInput placeholder="Your username" type="email" readonly disabled/>
+                <UInput placeholder="example@example.com" type="email" readonly disabled/>
             </UFormField>
         </UPageCard>
     </UForm>

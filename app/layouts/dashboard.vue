@@ -42,7 +42,7 @@
                         color="neutral"
                         variant="ghost"
                         :square="collapsed"
-                        class="data-[state=open]:bg-elevated"
+                        class="data-[state=open]:bg-elevated w-full"
                     />
                 </UDropdownMenu>
             </template>
@@ -58,8 +58,8 @@
 
     const links = [
         [{
-            label: "Home",
-            icon: "i-lucide-house",
+            label: "App",
+            icon: "i-lucide-bot",
             to: "/app",
             onSelect: () => open.value = false
         }, {
