@@ -13,11 +13,12 @@
                 v-bind="card"
                 :reverse="true"
                 variant="subtle"
+                spotlight
             >
                 <template #leading>
                     <UBadge :label="index+1" variant="soft"/>
                 </template>
-                <NuxtImg v-if="card.imageUrl" :src="card.imageUrl" :alt="`how-it-works-${index+1}`" class="h-50 w-full object-cover object-center bg-default rounded-md"/>
+                <NuxtImg v-if="card.imageUrl" :src="card.imageUrl" :alt="`how-it-works-${index+1}`" class="h-50 w-full object-cover object-center bg-transparent rounded-md"/>
                 <Placeholder v-else class="h-50"/>
             </UPageCard>
         </UPageGrid>
