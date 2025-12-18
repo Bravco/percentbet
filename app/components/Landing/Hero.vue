@@ -7,7 +7,7 @@
                 color="secondary"
             />
             <UButton
-                label="Releasing in early 2026"
+                label="Early Access release in January 2026"
                 trailing-icon="i-lucide-arrow-right"
                 size="md"
                 variant="link"

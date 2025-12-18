@@ -5,7 +5,7 @@
             variant="subtle"
         >
             <template #title>
-                <div class="mb-3 text-base text-secondary font-semibold">Early 2026</div>
+                <div class="mb-3 text-base text-secondary font-semibold">January 2026</div>
                 Join the waitlist
             </template>
             <template #links>
