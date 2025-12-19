@@ -1,7 +1,7 @@
 <template>
     <UDashboardPanel id="app">
         <template #header>
-            <UDashboardNavbar title="app">
+            <UDashboardNavbar title="Prediction Markets">
                 <template #leading>
                     <UDashboardSidebarCollapse/>
                 </template>
@@ -33,7 +33,7 @@
                 <USeparator/>
                 <UEmpty
                     v-if="predictionMarkets.length === 0"
-                    icon="i-lucide-bar-chart-big"
+                    icon="i-lucide-file-x"
                     title="No analysis found"
                     description="It looks like you have no past analysis. Generate one to get started."
                     :actions="[{ icon: 'i-lucide-search', label: 'Explore Prediction Markets',  color: 'neutral', to: 'https://polymarket.com', target: '_blank' }]"

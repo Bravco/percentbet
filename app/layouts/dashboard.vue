@@ -8,7 +8,7 @@
             resizable
         >
             <template #header="{ collapsed }">
-                <UButton v-if="collapsed" to="/" icon="i-lucide-percent" variant="ghost"/>
+                <UIcon v-if="collapsed" name="i-lucide-percent" class="size-5 text-primary m-auto"/>
                 <Logo v-else/>
             </template>
             <template #default="{ collapsed }">
@@ -42,8 +42,8 @@
                     >
                         <template #default v-if="!collapsed">
                             <div class="flex flex-col items-start truncate">
-                                <span>Your username</span>
-                                <span class="text-muted text-xs">example@example.com</span>
+                                <span>{{ user?.displayName }}</span>
+                                <span class="text-muted text-xs">{{ user?.email }}</span>
                             </div>
                         </template>
                     </UButton>
@@ -51,8 +51,8 @@
                         <div class="w-full flex items-center font-semibold p-2.5 text-sm gap-1.5 border-b border-muted">
                             <UAvatar v-bind="avatar"/>
                             <div class="flex flex-col items-start">
-                                <span>Your username</span>
-                                <span class="text-muted text-xs truncate">example@example.com</span>
+                                <span>{{ user?.displayName }}</span>
+                                <span class="text-muted text-xs truncate">{{ user?.email }}</span>
                             </div>
                         </div>
                     </template>
@@ -65,13 +65,17 @@
 
 <script lang="ts" setup>
     import type { NavigationMenuItem, DropdownMenuItem, AvatarProps } from "@nuxt/ui";
+    import { signOut } from "firebase/auth";
+
+    const auth = useFirebaseAuth();
+    const user = useCurrentUser();
 
     const open = ref<boolean>(false);
 
     const links = [
         [{
-            label: "App",
-            icon: "i-lucide-bot",
+            label: "Prediction Markets",
+            icon: "i-lucide-bar-chart-big",
             to: "/app",
             onSelect: () => open.value = false
         }, {
@@ -110,12 +114,17 @@
 
     const avatar = computed<AvatarProps>(() => ({
         icon: "i-lucide-user",
+        src: user.value?.photoURL ?? undefined,
+        alt: "profile-picture",
         size: "md",
         class: "bg-accented"
     }));
 
     const items = computed<DropdownMenuItem[]>(() => ([{
         label: "Log out",
-        icon: "i-lucide-log-out"
+        icon: "i-lucide-log-out",
+        onSelect: () => {
+            if (auth) signOut(auth);
+        }
     }]));
 </script>

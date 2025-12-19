@@ -2,19 +2,19 @@
     <UForm>
         <UPageCard
             title="Profile"
-            description="Your information wont be displayed publicly."
+            description="Your information wont be shared publicly."
             variant="naked"
             orientation="horizontal"
             class="mb-4"
         />
         <UPageCard variant="subtle">
             <UFormField
-                name="username"
-                label="Username"
+                name="name"
+                label="Your Name"
                 description="Will appear on receipts, invoices, and other communication."
                 class="flex max-sm:flex-col justify-between items-start gap-4"
             >
-                <UInput placeholder="Your username" readonly disabled/>
+                <UInput :placeholder="user?.displayName ?? undefined" readonly disabled/>
             </UFormField>
             <USeparator/>
             <UFormField
@@ -23,8 +23,12 @@
                 description="Used to sign in, for email receipts and product updates."
                 class="flex max-sm:flex-col justify-between items-start gap-4"
             >
-                <UInput placeholder="example@example.com" type="email" readonly disabled/>
+                <UInput :placeholder="user?.email ?? undefined" type="email" readonly disabled/>
             </UFormField>
         </UPageCard>
     </UForm>
 </template>
+
+<script lang="ts" setup>
+    const user = useCurrentUser();
+</script>

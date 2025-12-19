@@ -138,7 +138,7 @@
             label: "Legal",
             children: [
                 {
-                    label: "Terms of Use"
+                    label: "Terms of Service"
                 },
                 {
                     label: "Privacy Policy"
