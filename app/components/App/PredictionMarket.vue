@@ -40,7 +40,7 @@
                     <UButton @click.stop icon="i-lucide-trash-2" size="sm" color="error" variant="ghost" class="cursor-pointer"/>
                     <template #body>
                         <div class="flex flex-wrap items-center justify-between gap-2">
-                            <UButton @click="deleteMarket(predictionMarket.slug)" label="Delete Forever" color="error" class="cursor-pointer"/>
+                            <UButton @click="confirmDelete" label="Delete Forever" color="error" class="cursor-pointer"/>
                             <UButton @click="open = false" label="Cancel" color="neutral" class="cursor-pointer"/>
                         </div>
                     </template>
@@ -115,4 +115,9 @@
     const formatEdge = (chance: number) => {
         return `+${100 - Math.round(chance*100)}%`;
     };
+
+    function confirmDelete() {
+        deleteMarket(props.predictionMarket.slug);
+        open.value = false;
+    }
 </script>
