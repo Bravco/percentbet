@@ -66,7 +66,8 @@
         icon: "i-devicon-google",
         class: "cursor-pointer",
         onClick: () => {
-            if (auth) signInWithPopup(auth, new GoogleAuthProvider()).catch(() => {
+            if (!auth) return;
+            signInWithPopup(auth, new GoogleAuthProvider()).catch(() => {
                 toast.add({ title: "Something went wrong!", description: "Failed to sign in with Google.", color: "error" });
             });
         }
