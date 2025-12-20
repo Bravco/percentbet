@@ -19,6 +19,7 @@ interface MarketAnalysis {
 }
 
 interface PredictionMarket {
+    slug: string,
     title: string,
     image: string,
     endDate: Date,

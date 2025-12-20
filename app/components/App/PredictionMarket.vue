@@ -30,7 +30,22 @@
                     {{ formatEdge(predictionMarket.markets[predictionMarket.analysis.index]?.chance ?? 0) }}
                 </span>
             </div>
-            <UIcon :name="`i-lucide-chevron-${predictionMarket.selected ? 'up' : 'down'}`" class="ml-auto size-5 text-muted"/>
+            <div class="flex items-center">
+                <UIcon :name="`i-lucide-chevron-${predictionMarket.selected ? 'up' : 'down'}`" class="ml-auto size-5 text-muted"/>
+                <UModal
+                    v-model:open="open"
+                    title="Delete Confirmation"
+                    :description="`Are you sure you want to delete ${predictionMarket.title}`"
+                >
+                    <UButton @click.stop icon="i-lucide-trash-2" size="sm" color="error" variant="ghost" class="cursor-pointer"/>
+                    <template #body>
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <UButton @click="deleteMarket(predictionMarket.slug)" label="Delete Forever" color="error" class="cursor-pointer"/>
+                            <UButton @click="open = false" label="Cancel" color="neutral" class="cursor-pointer"/>
+                        </div>
+                    </template>
+                </UModal>
+            </div>
         </div>
         <template #content>
             <div v-if="predictionMarket.analysis" class="grid sm:grid-cols-3 grid-cols-1 items-center gap-4">
@@ -81,6 +96,8 @@
 </template>
 
 <script lang="ts" setup>
+    const { deleteMarket } = usePredictionMarkets();
+
     const props = defineProps<{
         predictionMarket: PredictionMarket
     }>();
@@ -88,6 +105,8 @@
     const emit = defineEmits<{
         (e: "update:selected", value: boolean): void
     }>();
+
+    const open = ref<boolean>(false);
 
     const formatVolume = (volume: number) => {
         return `${Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(volume)}  Vol.`;

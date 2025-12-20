@@ -31,8 +31,17 @@
                     />
                 </UForm>
                 <USeparator/>
+                <div v-if="fetchingMarkets" class="flex flex-col gap-4 sm:gap-6">
+                    <div v-for="_ in 4" class="flex items-center gap-4">
+                        <USkeleton class="h-16 w-16 rounded-md"/>
+                        <div class="w-full grid gap-2">
+                            <USkeleton class="h-6 max-w-full"/>
+                            <USkeleton class="h-6 max-w-full"/>
+                        </div>
+                    </div>
+                </div>
                 <UEmpty
-                    v-if="predictionMarkets.length === 0"
+                    v-else-if="predictionMarkets.length === 0"
                     icon="i-lucide-file-x"
                     title="No analysis found"
                     description="It looks like you have no past analysis. Generate one to get started."
@@ -53,7 +62,10 @@
 <script lang="ts" setup>
     definePageMeta({ layout: "dashboard" });
 
-    const predictionMarkets = ref<PredictionMarket[]>([]);
+    const store = usePredictionMarkets();
+    const { predictionMarkets, fetchingMarkets } = storeToRefs(store);
+    const { fetchMarkets, addMarket } = store;
+
     const url = ref<string>("https://polymarket.com/event/fed-decision-in-january");
     const error = ref<boolean>(false); 
     const loading = ref<boolean>(false);
@@ -62,7 +74,7 @@
 
     const slug = computed<string | undefined>(() => url.value.split("/event/")[1]?.split("?")[0]);
 
-    async function onSubmit() {
+    function onSubmit() {
         if (!slug.value) return;
     
         error.value = false;
@@ -75,40 +87,17 @@
             }
         }, 400);
 
-        try {
-            const polymarketData = await $fetch<PolymarketApiResponse>(`/api/polymarket?slug=${slug.value}`);
-            const market: PredictionMarket = {
-                title: polymarketData.title,
-                image: polymarketData.image,
-                endDate: new Date(polymarketData.endDate),
-                volume: polymarketData.volume,
-                closed: polymarketData.closed,
-                markets: polymarketData.markets.filter(m => !m.closed).map((m, i) => ({
-                    index: i,
-                    title: m.groupItemTitle,
-                    volume: m.volume,
-                    chance: JSON.parse(m.outcomePrices)[0]
-                })),
-                selected: true
-            };
-            const analysis = await $fetch<MarketAnalysis>("/api/openai", {
-                method: "POST",
-                body: {
-                    title: market.title,
-                    description: polymarketData.description,
-                    volume: market.volume,
-                    endDate: market.endDate.toISOString(),
-                    markets: market.markets
-                }
+        addMarket(slug.value)
+            .catch(() => {
+                error.value = true;
+            })
+            .finally(() => {
+                if (progressInterval) clearInterval(progressInterval);
+                loading.value = false;
             });
-            market.analysis = analysis;
-            predictionMarkets.value.forEach(pm => pm.selected = false);
-            predictionMarkets.value.unshift(market);
-        } catch(e) {
-            error.value = true;
-        } finally {
-            if (progressInterval) clearInterval(progressInterval);
-            loading.value = false;
-        }
     }
+
+    onMounted(() => {
+        if (predictionMarkets.value.length === 0) fetchMarkets();
+    });
 </script>
