@@ -1,0 +1,99 @@
+<template>
+    <UCollapsible
+        :open="predictionMarket.selected"
+        @update:open="emit('update:selected', $event)"
+        class="flex flex-col gap-4"
+    >
+        <div class="w-full flex items-center justify-between gap-4 cursor-pointer">
+            <div class="w-full flex sm:flex-row flex-col sm:items-center items-start gap-4">
+                <img
+                    :src="predictionMarket.image"
+                    alt="prediction market image"
+                    class="w-16 aspect-square object-cover object-center rounded-md"
+                >
+                <div class="flex flex-col gap-2">
+                    <h1 class="text-xl font-medium">{{ predictionMarket.title }}</h1>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <UBadge
+                            :label="predictionMarket.closed ? 'Closed' : 'Active'"
+                            :color="predictionMarket.closed ? 'error' : 'success'"
+                            variant="soft"
+                        />
+                        <span class="text-sm text-muted">{{ formatVolume(predictionMarket.volume) }}</span>
+                        <div class="flex items-center gap-1 text-muted">
+                            <UIcon name="i-lucide-clock"/>
+                            <span class="text-sm">{{ predictionMarket.endDate.toDateString() }}</span>
+                        </div>
+                    </div>
+                </div>
+                <span v-if="predictionMarket.analysis" class="sm:ml-auto text-xl font-medium text-success">
+                    {{ formatEdge(predictionMarket.markets[predictionMarket.analysis.index]?.chance ?? 0) }}
+                </span>
+            </div>
+            <UIcon :name="`i-lucide-chevron-${predictionMarket.selected ? 'up' : 'down'}`" class="ml-auto size-5 text-muted"/>
+        </div>
+        <template #content>
+            <div v-if="predictionMarket.analysis" class="grid sm:grid-cols-3 grid-cols-1 items-center gap-4">
+                <AppValueCard
+                    label="Bet"
+                    :value="predictionMarket.markets[predictionMarket.analysis.index]?.title ?? ''"
+                    icon="i-lucide-bot"
+                    color="primary"
+                />
+                <AppValueCard
+                    label="Edge"
+                    :value="formatEdge(predictionMarket.markets[predictionMarket.analysis.index]?.chance ?? 0)"
+                    icon="i-lucide-dollar-sign"
+                    color="success"
+                />
+                <AppValueCard
+                    label="Confidence Score"
+                    :value="`${Math.round(predictionMarket.analysis.confidence)}%`"
+                    icon="i-lucide-smile"
+                    color="secondary"
+                />
+            </div>
+            <div class="flex justify-between items-center gap-2 py-2 uppercase text-xs text-muted">
+                <span>Outcome</span>
+                <span class="text-center">% Chance</span>
+            </div>
+            <div v-for="market in predictionMarket.markets" :key="market.index">
+                <USeparator/>
+                <div class="flex justify-between items-center gap-2 py-2">
+                    <div>
+                        <h2
+                            class="text-lg font-medium"
+                            :class="{ 'text-primary': market.index == predictionMarket.analysis?.index }"
+                        >{{ market.title }}</h2>
+                        <span
+                            class="text-sm"
+                            :class="market.index == predictionMarket.analysis?.index ? 'text-primary/80' : 'text-muted'"
+                        >{{ formatVolume(market.volume) }}</span>
+                    </div>
+                    <span
+                        class="text-xl font-medium"
+                        :class="{ 'text-primary': market.index == predictionMarket.analysis?.index }"
+                    >{{ Math.round(market.chance*100) }}%</span>
+                </div>
+            </div>
+        </template>
+    </UCollapsible>
+</template>
+
+<script lang="ts" setup>
+    const props = defineProps<{
+        predictionMarket: PredictionMarket
+    }>();
+
+    const emit = defineEmits<{
+        (e: "update:selected", value: boolean): void
+    }>();
+
+    const formatVolume = (volume: number) => {
+        return `${Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(volume)}  Vol.`;
+    }
+
+    const formatEdge = (chance: number) => {
+        return `+${100 - Math.round(chance*100)}%`;
+    };
+</script>
