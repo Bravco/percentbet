@@ -45,7 +45,7 @@
                     icon="i-lucide-file-x"
                     title="No analysis found"
                     description="It looks like you have no past analysis. Generate one to get started."
-                    :actions="[{ icon: 'i-lucide-search', label: 'Explore Prediction Markets',  color: 'neutral', to: 'https://polymarket.com', target: '_blank' }]"
+                    :actions="[{ icon: 'i-lucide-search', label: 'Explore Polymarket',  color: 'neutral', to: 'https://polymarket.com', target: '_blank' }]"
                 />
                 <AppPredictionMarket
                     v-else
