@@ -121,7 +121,7 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                 market.analysis = analysis;
             }
 
-            //saveMarket(market);
+            saveMarket(market);
             predictionMarkets.value.forEach(pm => pm.selected = false);
             predictionMarkets.value.unshift(market);
         } catch (error) {
