@@ -11,8 +11,22 @@
                     alt="prediction market image"
                     class="w-16 aspect-square object-cover object-center rounded-md"
                 >
-                <div class="flex flex-col gap-2">
-                    <h1 class="text-xl font-medium">{{ predictionMarket.title }}</h1>
+                <div class="flex flex-col">
+                    <span class="text-xs text-muted -mb-1">
+                        Generated {{ predictionMarket.createdAt.toLocaleString(undefined, {
+                            dateStyle: 'short',
+                            timeStyle: 'short'
+                        }) }}
+                    </span>
+                    <UButton
+                        @click.stop="copyToClipboard"
+                        trailing-icon="i-lucide-copy"
+                        variant="link"
+                        color="neutral"
+                        :ui="{ base: 'p-0 cursor-pointer', }"
+                    >
+                        <h1 class="text-xl font-medium">{{ predictionMarket.title }}</h1>
+                    </UButton>
                     <div class="flex flex-wrap items-center gap-2">
                         <UBadge
                             :label="predictionMarket.closed ? 'Closed' : 'Active'"
@@ -96,6 +110,7 @@
 </template>
 
 <script lang="ts" setup>
+    const toast = useToast();
     const { deleteMarket } = usePredictionMarkets();
 
     const props = defineProps<{
@@ -115,6 +130,11 @@
     const formatEdge = (chance: number) => {
         return `+${100 - Math.round(chance*100)}%`;
     };
+
+    function copyToClipboard() {
+        navigator.clipboard.writeText(`https://polymarket.com/event/${props.predictionMarket.slug}`);
+        toast.add({ title: "Prediction market url copied to clipboard.", color: "info" });
+    }
 
     function confirmDelete() {
         deleteMarket(props.predictionMarket.slug);

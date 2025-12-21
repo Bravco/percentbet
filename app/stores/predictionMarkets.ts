@@ -1,5 +1,6 @@
 import { collection, doc, getDocs, addDoc, deleteDoc, query, orderBy, serverTimestamp } from "firebase/firestore";
 
+
 export const usePredictionMarkets = defineStore("predictionMarkets", () => {
     const firestore = useFirestore();
     const user = useCurrentUser();
@@ -26,6 +27,7 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                 try {
                     const polymarketData = await $fetch<PolymarketApiResponse>(`/api/polymarket?slug=${m.slug}`);
                     const market: PredictionMarket = {
+                        createdAt: m.createdAt.toDate(),
                         slug: m.slug,
                         title: polymarketData.title,
                         image: polymarketData.image,
@@ -59,6 +61,7 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
         try {
             const polymarketData = await $fetch<PolymarketApiResponse>(`/api/polymarket?slug=${slug}`);
             const market: PredictionMarket = {
+                createdAt: new Date(),
                 slug: slug,
                 title: polymarketData.title,
                 image: polymarketData.image,
