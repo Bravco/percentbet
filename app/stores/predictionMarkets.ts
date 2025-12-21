@@ -14,6 +14,34 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
         return collection(firestore, "users", user.value.uid, "predictionMarkets");
     });
 
+    const normalizePolymarketMarkets = (markets: PolymarketApiMarket[]) => {
+        if (!markets.length) return [];
+
+        if (markets.length === 1) {
+            const market = markets[0];
+            if (!market) return [];
+
+            const outcomes: string[] = JSON.parse(market.outcomes);
+            const outcomePrices: number[] = JSON.parse(market.outcomePrices).map(Number);
+
+            return outcomes.map((title, index) => ({
+                index,
+                title,
+                chance: outcomePrices[index] ?? 0
+            }));
+        }
+
+        return markets.map((market, index) => {
+            const outcomePrices: number[] = JSON.parse(market.outcomePrices).map(Number);
+            return {
+                index,
+                title: market.groupItemTitle,
+                volume: market.volume,
+                chance: outcomePrices[0] ?? 0
+            }
+        });
+    };
+
     const fetchMarkets = async () => {
         if (!predictionMarketsRef.value) return;
         fetchingMarkets.value = true;
@@ -34,17 +62,13 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                         endDate: new Date(polymarketData.endDate),
                         volume: polymarketData.volume,
                         closed: polymarketData.closed,
-                        markets: polymarketData.markets.filter(pm => !pm.closed).map((pm, i) => ({
-                            index: i,
-                            title: pm.groupItemTitle,
-                            volume: pm.volume,
-                            chance: JSON.parse(pm.outcomePrices)[0]
-                        })),
+                        markets: normalizePolymarketMarkets(polymarketData.markets.filter(pm => !pm.closed)),
                         selected: false,
                         analysis: m.analysis
                     };
                     predictionMarkets.value.push(market);
-                } catch {
+                } catch (e) {
+                    console.error(e);
                     toast.add({ title: `Failed to fetch Polymarket data for ${m.slug}`, color: "warning" });
                 }
             }
@@ -68,27 +92,36 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                 endDate: new Date(polymarketData.endDate),
                 volume: polymarketData.volume,
                 closed: polymarketData.closed,
-                markets: polymarketData.markets.filter(m => !m.closed).map((m, i) => ({
-                    index: i,
-                    title: m.groupItemTitle,
-                    volume: m.volume,
-                    chance: JSON.parse(m.outcomePrices)[0]
-                })),
+                markets: normalizePolymarketMarkets(polymarketData.markets.filter(m => !m.closed)),
                 selected: true
             };
-            const analysis = await $fetch<MarketAnalysis>("/api/openai", {
-                method: "POST",
-                body: {
-                    title: market.title,
-                    description: polymarketData.description,
-                    volume: market.volume,
-                    endDate: market.endDate.toISOString(),
-                    markets: market.markets
+
+            let doAnalysis = true;
+            market.markets.forEach(m => {
+                if (m.chance >= 0.98) {
+                    doAnalysis = false;
+                    market.analysis = {
+                        index: m.index,
+                        confidence: 95
+                    };
                 }
             });
 
-            market.analysis = analysis;
-            saveMarket(market);
+            if (doAnalysis) {
+                const analysis = await $fetch<MarketAnalysis>("/api/openai", {
+                    method: "POST",
+                    body: {
+                        title: market.title,
+                        description: polymarketData.description,
+                        volume: market.volume,
+                        endDate: market.endDate.toISOString(),
+                        markets: market.markets
+                    }
+                });
+                market.analysis = analysis;
+            }
+
+            //saveMarket(market);
             predictionMarkets.value.forEach(pm => pm.selected = false);
             predictionMarkets.value.unshift(market);
         } catch (error) {

@@ -20,12 +20,14 @@
                     </span>
                     <UButton
                         @click.stop="copyToClipboard"
-                        trailing-icon="i-lucide-copy"
                         variant="link"
                         color="neutral"
                         :ui="{ base: 'p-0 cursor-pointer', }"
                     >
-                        <h1 class="text-xl font-medium">{{ predictionMarket.title }}</h1>
+                        <h1 class="text-start text-xl font-medium">
+                            {{ predictionMarket.title }}
+                            <UIcon name="i-lucide-copy"/>
+                        </h1>
                     </UButton>
                     <div class="flex flex-wrap items-center gap-2">
                         <UBadge
@@ -40,8 +42,8 @@
                         </div>
                     </div>
                 </div>
-                <span v-if="predictionMarket.analysis" class="sm:ml-auto text-xl font-medium text-success">
-                    {{ formatEdge(predictionMarket.markets[predictionMarket.analysis.index]?.chance ?? 0) }}
+                <span v-if="selectedMarket" class="sm:ml-auto text-xl font-medium text-success">
+                    {{ formatEdge(selectedMarket.chance) }}
                 </span>
             </div>
             <div class="flex items-center">
@@ -62,22 +64,22 @@
             </div>
         </div>
         <template #content>
-            <div v-if="predictionMarket.analysis" class="grid sm:grid-cols-3 grid-cols-1 items-center gap-4">
+            <div v-if="selectedMarket" class="grid sm:grid-cols-3 grid-cols-1 items-center gap-4">
                 <AppValueCard
                     label="Bet"
-                    :value="predictionMarket.markets[predictionMarket.analysis.index]?.title ?? ''"
+                    :value="selectedMarket.title"
                     icon="i-lucide-bot"
                     color="primary"
                 />
                 <AppValueCard
                     label="Edge"
-                    :value="formatEdge(predictionMarket.markets[predictionMarket.analysis.index]?.chance ?? 0)"
+                    :value="formatEdge(selectedMarket.chance)"
                     icon="i-lucide-dollar-sign"
                     color="success"
                 />
                 <AppValueCard
                     label="Confidence Score"
-                    :value="`${Math.round(predictionMarket.analysis.confidence)}%`"
+                    :value="`${predictionMarket.analysis?.confidence ?? 0}%`"
                     icon="i-lucide-smile"
                     color="secondary"
                 />
@@ -95,6 +97,7 @@
                             :class="{ 'text-primary': market.index == predictionMarket.analysis?.index }"
                         >{{ market.title }}</h2>
                         <span
+                            v-if="market.volume"
                             class="text-sm"
                             :class="market.index == predictionMarket.analysis?.index ? 'text-primary/80' : 'text-muted'"
                         >{{ formatVolume(market.volume) }}</span>
@@ -123,13 +126,19 @@
 
     const open = ref<boolean>(false);
 
-    const formatVolume = (volume: number) => {
-        return `${Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(volume)}  Vol.`;
-    }
+    const selectedMarket = computed(() => {
+        const index = props.predictionMarket.analysis?.index;
+        if (index == null) return null;
+        return props.predictionMarket.markets[index] ?? null;
+    });
 
-    const formatEdge = (chance: number) => {
-        return `+${100 - Math.round(chance*100)}%`;
-    };
+    const formatVolume = (volume: number) => 
+        Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD"
+        }).format(volume) + " Vol.";
+
+    const formatEdge = (chance: number) => `+${100 - Math.round(chance*100)}%`;
 
     function copyToClipboard() {
         navigator.clipboard.writeText(`https://polymarket.com/event/${props.predictionMarket.slug}`);

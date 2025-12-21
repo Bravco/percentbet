@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
         messages: [
             {
                 role: "system",
-                content: "You are a prediction market analyst. Your task is to determine the most probable outcome and how condifent your are. Respond ONLY with valid JSON."
+                content: "You are a prediction market analyst. Respond ONLY with valid JSON."
             },
             {
                 role: "user",
@@ -25,8 +25,8 @@ Choices: ${body.markets.map((m: any) => ({
 }))}
 
 Rules:
+- Index MUST correspond to the selected choice index
 - Confidence must be optimistic, between 0 and 100
-- Index must correspond to the selected choice index
 
 Return ONLY this JSON:
 {
@@ -40,17 +40,17 @@ Return ONLY this JSON:
 
     const raw = completion.choices[0].message.content;
 
-    try {
-        if (!raw) throw createError({
-            statusCode: 500,
-            statusMessage: "OpenAI API returned empty response"
-        });
+    if (!raw) throw createError({
+        statusCode: 500,
+        statusMessage: "OpenAI API returned empty response"
+    });
 
+    try {
         return JSON.parse(raw);
     } catch {
         throw createError({
             statusCode: 500,
-            statusMessage: "Invalid OpenAI response"
+            statusMessage: "Invalid OpenAI response format"
         });
     }
 });
