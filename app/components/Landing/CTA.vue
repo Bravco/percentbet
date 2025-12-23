@@ -15,10 +15,10 @@
                     </UFormField>
                     <UButton
                         type="submit"
-                        class="cursor-pointer"
+                        label="Submit"
                         :disabled="loading"
-                        :icon="loading ? 'i-eos-icons-loading' : ''"
-                        :label="loading ? 'Sending' : 'Submit'"
+                        class="cursor-pointer"
+                        :loading="loading"
                     />
                 </UForm>
             </template>

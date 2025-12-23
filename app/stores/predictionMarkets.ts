@@ -164,6 +164,7 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
     return {
         predictionMarkets,
         fetchingMarkets,
+        normalizePolymarketMarkets,
         fetchMarkets,
         addMarket,
         deleteMarket

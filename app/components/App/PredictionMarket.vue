@@ -27,10 +27,10 @@
                         :ui="{ base: 'mb-1 p-0 cursor-pointer' }"
                         :label="predictionMarket.title"
                     >
-                        <h1 class="text-xl font-medium leading-none">
+                        <h2 class="text-xl font-medium leading-none">
                             {{ predictionMarket.title }}
                             <UIcon name="i-lucide-arrow-up-right" class="size-4 align-top -ml-1"/>
-                        </h1>
+                        </h2>
                     </UButton>
                     <div class="flex flex-wrap items-center gap-2">
                         <UBadge
@@ -116,7 +116,6 @@
 </template>
 
 <script lang="ts" setup>
-    const toast = useToast();
     const { deleteMarket } = usePredictionMarkets();
 
     const props = defineProps<{
@@ -137,14 +136,6 @@
     });
 
     const predictionMarketUrl = computed(() => `https://polymarket.com/event/${props.predictionMarket.slug}`);
-
-    const formatVolume = (volume: number) => 
-        Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD"
-        }).format(volume) + " Vol.";
-
-    const formatEdge = (chance: number) => `+${100 - Math.round(chance*100)}%`;
 
     function confirmDelete() {
         deleteMarket(props.predictionMarket.slug);

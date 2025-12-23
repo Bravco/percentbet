@@ -41,10 +41,10 @@
                                                 type="submit"
                                                 size="xs"
                                                 color="neutral"
-                                                :label="loading ? 'Sending' : 'Subscribe'"
-                                                :icon="loading ? 'i-eos-icons-loading' : ''"
-                                                class="cursor-pointer"
+                                                label="Subscribe"
                                                 :disabled="loading"
+                                                :loading="loading"
+                                                class="cursor-pointer"
                                             />
                                         </template>
                                     </UInput>

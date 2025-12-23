@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
     try {
         return await $fetch(`https://gamma-api.polymarket.com/events/slug/${slug}`);
-    } catch (e: any) {
+    } catch {
         throw createError({
             statusCode: 500,
             statusMessage: "Failed to fetch Polymarket data"
