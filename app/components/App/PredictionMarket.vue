@@ -13,7 +13,7 @@
                 >
                 <div class="flex flex-col">
                     <span class="text-xs text-muted -mb-1">
-                        Generated {{ predictionMarket.createdAt.toLocaleString(undefined, {
+                        Analyzed {{ predictionMarket.createdAt.toLocaleString(undefined, {
                             dateStyle: 'short',
                             timeStyle: 'short'
                         }) }}
