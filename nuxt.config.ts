@@ -10,9 +10,6 @@ export default defineNuxtConfig({
       WEB3FORMS_ACCESS_KEY: process.env.WEB3FORMS_ACCESS_KEY
     }
   },
-  colorMode: {
-    preference: "light"
-  },
   app: {
     head: {
       htmlAttrs: {
@@ -23,6 +20,16 @@ export default defineNuxtConfig({
         { name: "title", content: "PercentBet - %bet" },
         { name: "description", content: "An AI-powered tool that finds mispriced prediction markets and shows you your percentage edge." },
         { name: "keywords", content: "prediction markets, ai, trading, prediction markets ai" }
+      ]
+    }
+  },
+  colorMode: {
+    preference: "light"
+  },
+  ui: {
+    theme: {
+      colors: [
+        "tertiary"
       ]
     }
   },

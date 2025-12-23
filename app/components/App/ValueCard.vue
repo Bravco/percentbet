@@ -14,13 +14,14 @@
         label: string,
         value: string,
         icon?: string | undefined,
-        color?: "primary" | "success" | "secondary"
+        color?: "neutral" | "primary" | "success" | "secondary" | "tertiary"
     }>();
 
     const bgClasses = computed(() => {
         if (props.color === "primary") return "bg-primary/10 text-primary ring-primary/25";
         if (props.color === "success") return "bg-success/10 text-success ring-success/25";
         if (props.color === "secondary") return "bg-secondary/10 text-secondary ring-secondary/25";
+        if (props.color === "tertiary") return "bg-tertiary/10 text-tertiary ring-tertiary/25";
         return "bg-elevated ring-accented";
     });
 </script>

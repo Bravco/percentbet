@@ -34,7 +34,7 @@ ${body.markets.map((m: any) => `- marketId: "${m.id}" | title: "${m.title}"`).jo
 TASK:
 1. Decide which ONE market is most likely to resolve YES.
 2. Copy its marketId EXACTLY as shown above.
-3. Assign an optimistic confidence between 0 and 100.
+3. Assign an VERY OPTIMISTIC confidence between 0 and 100.
 
 Return ONLY this JSON:
 {

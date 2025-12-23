@@ -3,6 +3,7 @@ export default defineAppConfig({
         colors: {
             primary: "sky",
             secondary: "amber",
+            tertiary: "teal",
             neutral: "zinc"
         },
         button: {

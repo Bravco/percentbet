@@ -12,21 +12,24 @@
                     class="w-16 aspect-square object-cover object-center rounded-md"
                 >
                 <div class="flex flex-col">
-                    <span class="text-xs text-muted -mb-1">
+                    <span class="text-xs text-muted">
                         Analyzed {{ predictionMarket.createdAt.toLocaleString(undefined, {
                             dateStyle: 'short',
                             timeStyle: 'short'
                         }) }}
                     </span>
                     <UButton
-                        @click.stop="copyToClipboard"
+                        @click.stop
+                        :to="predictionMarketUrl"
+                        target="_blank"
                         variant="link"
                         color="neutral"
-                        :ui="{ base: 'p-0 cursor-pointer', }"
+                        :ui="{ base: 'mb-1 p-0 cursor-pointer' }"
+                        :label="predictionMarket.title"
                     >
-                        <h1 class="text-start text-xl font-medium">
+                        <h1 class="text-xl font-medium leading-none">
                             {{ predictionMarket.title }}
-                            <UIcon name="i-lucide-copy"/>
+                            <UIcon name="i-lucide-arrow-up-right" class="size-4 align-top -ml-1"/>
                         </h1>
                     </UButton>
                     <div class="flex flex-wrap items-center gap-2">
@@ -64,7 +67,7 @@
             </div>
         </div>
         <template #content>
-            <div v-if="selectedMarket" class="grid sm:grid-cols-3 grid-cols-1 items-center gap-4">
+            <div v-if="predictionMarket.analysis && selectedMarket" class="grid sm:grid-cols-3 grid-cols-1 items-center gap-4">
                 <AppValueCard
                     label="Bet"
                     :value="selectedMarket.title"
@@ -79,9 +82,9 @@
                 />
                 <AppValueCard
                     label="Confidence Score"
-                    :value="`${predictionMarket.analysis?.confidence ?? 0}%`"
+                    :value="`${predictionMarket.analysis.confidence ?? 0}%`"
                     icon="i-lucide-smile"
-                    color="secondary"
+                    color="tertiary"
                 />
             </div>
             <div class="flex justify-between items-center gap-2 py-2 uppercase text-xs text-muted">
@@ -133,6 +136,8 @@
             .find(m => m.id === props.predictionMarket.analysis?.marketId) ?? null;
     });
 
+    const predictionMarketUrl = computed(() => `https://polymarket.com/event/${props.predictionMarket.slug}`);
+
     const formatVolume = (volume: number) => 
         Intl.NumberFormat("en-US", {
             style: "currency",
@@ -140,11 +145,6 @@
         }).format(volume) + " Vol.";
 
     const formatEdge = (chance: number) => `+${100 - Math.round(chance*100)}%`;
-
-    function copyToClipboard() {
-        navigator.clipboard.writeText(`https://polymarket.com/event/${props.predictionMarket.slug}`);
-        toast.add({ title: "Prediction market url copied to clipboard.", color: "info" });
-    }
 
     function confirmDelete() {
         deleteMarket(props.predictionMarket.slug);
