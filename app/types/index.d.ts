@@ -1,4 +1,5 @@
 interface PolymarketApiMarket {
+    id: string;
     active: boolean;
     closed: boolean;
     groupItemTitle: string;
@@ -18,7 +19,7 @@ interface PolymarketApiResponse {
 }
 
 interface MarketAnalysis {
-    index: number;
+    marketId: string;
     confidence: number; // 0-100
 }
 
@@ -31,7 +32,7 @@ interface PredictionMarket {
     volume: number;
     closed: boolean;
     markets: {
-        index: number;
+        id: string;
         title: string;
         volume?: number | undefined;
         chance: number; // 0-1

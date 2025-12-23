@@ -25,7 +25,7 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
             const outcomePrices: number[] = JSON.parse(market.outcomePrices).map(Number);
 
             return outcomes.map((title, index) => ({
-                index,
+                id: index.toString(),
                 title,
                 chance: outcomePrices[index] ?? 0
             }));
@@ -33,10 +33,10 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
 
         return markets
             .filter(m => m.active && !m.closed)
-            .map((market, index) => {
+            .map(market => {
                 const outcomePrices: number[] = JSON.parse(market.outcomePrices).map(Number);
                 return {
-                    index,
+                    id: market.id,
                     title: market.groupItemTitle,
                     volume: market.volume,
                     chance: outcomePrices[0] ?? 0
@@ -105,7 +105,7 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                 if (m.chance >= 0.98) {
                     doAnalysis = false;
                     market.analysis = {
-                        index: m.index,
+                        marketId: m.id,
                         confidence: 95
                     };
                 }
@@ -117,7 +117,6 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                     body: {
                         title: market.title,
                         description: polymarketData.description,
-                        volume: market.volume,
                         endDate: market.endDate.toISOString(),
                         markets: market.markets
                     }

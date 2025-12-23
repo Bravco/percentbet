@@ -88,23 +88,23 @@
                 <span>Outcome</span>
                 <span class="text-center">% Chance</span>
             </div>
-            <div v-for="market in predictionMarket.markets" :key="market.index">
+            <div v-for="market in predictionMarket.markets" :key="market.id">
                 <USeparator/>
                 <div class="flex justify-between items-center gap-2 py-2">
                     <div>
                         <h2
                             class="text-lg font-medium"
-                            :class="{ 'text-primary': market.index == predictionMarket.analysis?.index }"
+                            :class="{ 'text-primary': market.id == selectedMarket?.id }"
                         >{{ market.title }}</h2>
                         <span
                             v-if="market.volume"
                             class="text-sm"
-                            :class="market.index == predictionMarket.analysis?.index ? 'text-primary/80' : 'text-muted'"
+                            :class="market.id == selectedMarket?.id ? 'text-primary/80' : 'text-muted'"
                         >{{ formatVolume(market.volume) }}</span>
                     </div>
                     <span
                         class="text-xl font-medium"
-                        :class="{ 'text-primary': market.index == predictionMarket.analysis?.index }"
+                        :class="{ 'text-primary': market.id == selectedMarket?.id }"
                     >{{ Math.round(market.chance*100) }}%</span>
                 </div>
             </div>
@@ -127,9 +127,10 @@
     const open = ref<boolean>(false);
 
     const selectedMarket = computed(() => {
-        const index = props.predictionMarket.analysis?.index;
-        if (index == null) return null;
-        return props.predictionMarket.markets[index] ?? null;
+        const index = props.predictionMarket.analysis?.marketId;
+        if (index === undefined) return null;
+        return props.predictionMarket.markets
+            .find(m => m.id === props.predictionMarket.analysis?.marketId) ?? null;
     });
 
     const formatVolume = (volume: number) => 
