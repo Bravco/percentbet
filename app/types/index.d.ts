@@ -1,4 +1,5 @@
 interface PolymarketApiMarket {
+    active: boolean;
     closed: boolean;
     groupItemTitle: string;
     volume: number;

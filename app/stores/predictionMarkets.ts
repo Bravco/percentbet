@@ -31,15 +31,19 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
             }));
         }
 
-        return markets.map((market, index) => {
-            const outcomePrices: number[] = JSON.parse(market.outcomePrices).map(Number);
-            return {
-                index,
-                title: market.groupItemTitle,
-                volume: market.volume,
-                chance: outcomePrices[0] ?? 0
-            }
-        });
+        return markets
+            .filter(m => m.active && !m.closed)
+            .map((market, index) => {
+                const outcomePrices: number[] = JSON.parse(market.outcomePrices).map(Number);
+                return {
+                    index,
+                    title: market.groupItemTitle,
+                    volume: market.volume,
+                    chance: outcomePrices[0] ?? 0
+                }
+            })
+            .sort((a, b) => b.chance - a.chance)
+            .slice(0, 10);
     };
 
     const fetchMarkets = async () => {
@@ -62,7 +66,7 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                         endDate: new Date(polymarketData.endDate),
                         volume: polymarketData.volume,
                         closed: polymarketData.closed,
-                        markets: normalizePolymarketMarkets(polymarketData.markets.filter(pm => !pm.closed)),
+                        markets: normalizePolymarketMarkets(polymarketData.markets),
                         selected: false,
                         analysis: m.analysis
                     };
@@ -92,7 +96,7 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                 endDate: new Date(polymarketData.endDate),
                 volume: polymarketData.volume,
                 closed: polymarketData.closed,
-                markets: normalizePolymarketMarkets(polymarketData.markets.filter(m => !m.closed)),
+                markets: normalizePolymarketMarkets(polymarketData.markets),
                 selected: true
             };
 
