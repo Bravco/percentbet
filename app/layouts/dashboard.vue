@@ -115,7 +115,7 @@
     const avatar = computed<AvatarProps>(() => ({
         icon: "i-lucide-user",
         src: user.value?.photoURL ?? undefined,
-        alt: "profile-picture",
+        alt: user.value?.displayName ?? "profile-picture",
         size: "md",
         class: "bg-accented"
     }));

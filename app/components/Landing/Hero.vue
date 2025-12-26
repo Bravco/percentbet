@@ -1,5 +1,5 @@
 <template>
-    <UPageHero :links="links">
+    <UPageHero :links="links" class="bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--ui-primary)_10%,transparent)_0%,transparent_70%)]">
         <template #headline>
             <UBadge
                 label="New"
@@ -7,7 +7,7 @@
                 color="secondary"
             />
             <UButton
-                label="Early Access release in January 2026"
+                label="Releasing in January 2026"
                 trailing-icon="i-lucide-arrow-right"
                 size="md"
                 variant="link"
@@ -21,12 +21,17 @@
         </template>
         <template #description>
             <p>
-                Turn uncertainty into opportunity.<br>
-                AI-powered insights that help you increase your edge within the prediction markets.
+                Spots mispriced prediction markets to give you an edge.<br>
+                Turning uncertainty into opportunity.
             </p>
         </template>
         <template #default>
-            <Placeholder class="h-150">Coming soon... 🤫</Placeholder>
+            <UColorModeImage
+                light="/images/hero-light.webp"
+                dark="/images/hero-dark.webp"
+                alt="hero-image"
+                class="w-full aspect-video object-cover object-top mask-b-from-70% rounded-md border border-dashed border-accented"
+            />
         </template>
     </UPageHero>
 </template>
