@@ -3,9 +3,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   ssr: false,
-  modules: ["@nuxt/ui", "@nuxt/image", "nuxt-vuefire", "@pinia/nuxt", "@unlok-co/nuxt-stripe"],
+  modules: ["@nuxt/ui", "@nuxt/image", "nuxt-vuefire", "@pinia/nuxt"],
   css: ["~/assets/main.css"],
   runtimeConfig: {
+    stripeSecret: process.env.STRIPE_SECRET_KEY,
     public: {
       WEB3FORMS_ACCESS_KEY: process.env.WEB3FORMS_ACCESS_KEY
     }
@@ -52,14 +53,6 @@ export default defineNuxtConfig({
     auth: {
       enabled: true,
       sessionCookie: false
-    }
-  },
-  stripe: {
-    server: {
-      key: process.env.STRIPE_SECRET_KEY
-    },
-    client: {
-      key: process.env.STRIPE_PUBLISHABLE_KEY
     }
   }
 })

@@ -1,7 +1,5 @@
-import { useServerStripe } from "#stripe/server";
 
 export default defineEventHandler(async (event) => {
-    const stripe = useServerStripe(event);
     const token = getHeader(event, 'authorization')?.replace("Bearer ", "");
     const decoded = await adminAuth.verifyIdToken(token!);
     const userSnap = await adminFirestore

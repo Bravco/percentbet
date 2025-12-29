@@ -1,12 +1,9 @@
-import { useServerStripe } from "#stripe/server";
-
 export default defineEventHandler(async (event) => {
     const authHeader = getHeader(event, "authorization");
     if (!authHeader) {
         throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
     }
 
-    const stripe = useServerStripe(event);
     const token = authHeader.replace("Bearer ", "");
     const decoded = await adminAuth.verifyIdToken(token);
     const uid = decoded.uid;

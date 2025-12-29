@@ -1,10 +1,7 @@
-import { useServerStripe } from "#stripe/server";
-
 export default defineEventHandler(async (event) => {
     const sig = getHeader(event, "stripe-signature");
     const body = await readRawBody(event);
     
-    const stripe = useServerStripe(event);
     const stripeEvent = stripe.webhooks.constructEvent(
         body!,
         sig!,
