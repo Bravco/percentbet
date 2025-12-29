@@ -10,7 +10,7 @@
         <UPageCard variant="subtle">
             <UFormField
                 name="name"
-                label="Your Name"
+                label="Display Name"
                 description="Will appear on receipts, invoices, and other communication."
                 class="flex max-sm:flex-col justify-between items-start gap-4"
             >

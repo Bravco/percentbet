@@ -14,7 +14,7 @@
                         <UFormField
                             label="Polymarket Url"
                             description="Paste the Polymarket's prediction market url."
-                            :error="error ? 'Failed to fetch Polymarket data' : false">
+                            :error="error">
                             <UInput v-model="url" placeholder="https://polymarket.com/event/..." class="w-full"/>
                         </UFormField>
                         <UButton
@@ -68,9 +68,11 @@
     const store = usePredictionMarkets();
     const { predictionMarkets, fetchingMarkets } = storeToRefs(store);
     const { fetchMarkets, addMarket } = store;
+    const { isPremium } = useUserData();
+    const toast = useToast();
 
-    const url = ref<string>("https://polymarket.com/event/fed-decision-in-january");
-    const error = ref<boolean>(false); 
+    const url = ref<string>("");
+    const error = ref<string | undefined>(undefined); 
     const loading = ref<boolean>(false);
     const loadingProgress = ref<number>(0);
     let progressInterval: NodeJS.Timeout | null = null;
@@ -78,7 +80,7 @@
     const slug = computed<string | undefined>(() => url.value.split("/event/")[1]?.split("?")[0]);
 
     function analyzeMarket(slug: string) {
-        error.value = false;
+        error.value = undefined;
         loading.value = true;
         loadingProgress.value = 0;
 
@@ -89,8 +91,18 @@
         }, 400);
 
         addMarket(slug)
-            .catch(() => {
-                error.value = true;
+            .catch((e: any) => {
+                if (e.statusCode === 429) { // Daily usage limit reached
+                    error.value = e.data.message ?? "Something went wrong";
+                    toast.add({
+                        title: error.value,
+                        description: isPremium.value ? undefined : "Upgrade to Premium",
+                        color: "error"
+                    });
+                } else {
+                    error.value = e.data.message ?? "Something went wrong";
+                    toast.add({ title: error.value, color: "error" });
+                }
             })
             .finally(() => {
                 if (progressInterval) clearInterval(progressInterval);

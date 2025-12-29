@@ -7,12 +7,7 @@
     >
         <template #body>
             <div class="flex flex-col items-center gap-8">
-                <USwitch
-                    v-model="billedAnnualy"
-                    label="Billed Annualy"
-                    description="Save -20%"
-                    size="lg"
-                />
+                <span class="text-muted font-medium">Join the waitlist for -20% discount on release!</span>
                 <UPricingPlans class="w-full">
                     <UPricingPlan
                         v-for="(plan, index) in plans"
@@ -28,8 +23,6 @@
 
 <script lang="ts" setup>
     import type { PricingPlanProps } from "@nuxt/ui";
-
-    const billedAnnualy = ref<boolean>(true);
 
     const plans = computed<PricingPlanProps[]>(() => [
         {
@@ -58,10 +51,9 @@
             description: "Full-access to all the features.",
             class: "ring-primary bg-primary/10",
             badge: "Advanced",
-            discount: billedAnnualy.value ? "" : undefined, // $39.99
-            price: "$??.??", // $49.99
+            price: "$??.??",
             billingCycle: "/month",
-            billingPeriod: `billed ${billedAnnualy.value ? "annualy" : 'monthly'}`,
+            billingPeriod: "billed monthly",
             features: [
                 "Advanced AI Model",
                 "Unlimited Usage",

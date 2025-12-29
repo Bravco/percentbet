@@ -29,6 +29,16 @@
                 <USeparator/>
                 <UColorModeButton v-if="collapsed" class="text-dimmed hover:text-highlighted cursor-pointer"/>
                 <UColorModeSelect v-else class="text-muted hover:text-highlighted"/>
+                <UButton
+                    v-if="!isPremium"
+                    @click="checkout"
+                    :loading="checkoutLoading"
+                    :disabled="checkoutLoading"
+                    label="Upgrade to Premium"
+                    icon="i-lucide-star"
+                    :square="collapsed"
+                    class="cursor-pointer"
+                />
             </template>
             <template #footer="{ collapsed }">
                 <UDropdownMenu :items="items" :ui="{ content: 'min-w-(--reka-dropdown-menu-trigger-width)' }">
@@ -69,6 +79,8 @@
 
     const auth = useFirebaseAuth();
     const user = useCurrentUser();
+    const { isPremium } = useUserData();
+    const { checkout, loading: checkoutLoading } = useStripeCheckout();
 
     const open = ref<boolean>(false);
 

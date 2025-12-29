@@ -51,7 +51,7 @@
 <script lang="ts" setup>
     import * as v from "valibot";
     import type { FormSubmitEvent, AuthFormField, ButtonProps } from "@nuxt/ui";
-    import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail } from "firebase/auth";
+    import {createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signInWithRedirect, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail, getRedirectResult } from "firebase/auth";
 
     definePageMeta({ layout: "landing" });
 
@@ -60,6 +60,7 @@
 
     const isSignUp = ref(false);
     const forgotPassword = ref(false);
+    const googleProvider = new GoogleAuthProvider();
 
     const providers: ButtonProps[] = [{
         label: "Sign in with Google",
@@ -67,9 +68,10 @@
         class: "cursor-pointer",
         onClick: () => {
             if (!auth) return;
-            signInWithPopup(auth, new GoogleAuthProvider()).catch(() => {
+            signInWithRedirect(auth, googleProvider);
+            /*signInWithPopup(auth, new GoogleAuthProvider()).catch(() => {
                 toast.add({ title: "Something went wrong!", description: "Failed to sign in with Google.", color: "error" });
-            });
+            });*/
         }
     }];
 
@@ -137,4 +139,9 @@
             toast.add({ title: "Password Reset Email", description: "We have sent you password reset email.", color: "success" });
         });
     }
+
+    onMounted(() => {
+        if (!auth) return;
+        getRedirectResult(auth!);
+    });
 </script>

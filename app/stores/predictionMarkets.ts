@@ -87,6 +87,16 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
         if (!slug) return;
 
         try {
+            const token = await user.value?.getIdToken();
+            if (!token) throw new Error("User not authenticated");
+
+            const res = await $fetch("/api/usage", {
+                method: "POST",
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+
+            if (!res.success) throw new Error("Daily usage limit reached");
+
             const polymarketData = await $fetch<PolymarketApiResponse>(`/api/polymarket?slug=${slug}`);
             const market: PredictionMarket = {
                 createdAt: new Date(),
