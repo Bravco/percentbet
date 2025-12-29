@@ -1,5 +1,3 @@
 import Stripe from "stripe";
 
-const config = useRuntimeConfig();
-
-export const stripe = new Stripe(config.stripeSecret);
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);

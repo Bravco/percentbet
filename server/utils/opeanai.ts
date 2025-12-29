@@ -1,5 +1,3 @@
 import { OpenAI } from "openai";
 
-const config = useRuntimeConfig();
-
-export const openai = new OpenAI({ apiKey: config.openaiApiKey });
+export const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
