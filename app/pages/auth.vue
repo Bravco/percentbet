@@ -68,10 +68,9 @@
         class: "cursor-pointer",
         onClick: () => {
             if (!auth) return;
-            signInWithRedirect(auth, googleProvider);
-            /*signInWithPopup(auth, new GoogleAuthProvider()).catch(() => {
+            signInWithPopup(auth, new GoogleAuthProvider()).catch(() => {
                 toast.add({ title: "Something went wrong!", description: "Failed to sign in with Google.", color: "error" });
-            });*/
+            });
         }
     }];
 
@@ -139,9 +138,4 @@
             toast.add({ title: "Password Reset Email", description: "We have sent you password reset email.", color: "success" });
         });
     }
-
-    onMounted(() => {
-        if (!auth) return;
-        getRedirectResult(auth!);
-    });
 </script>
