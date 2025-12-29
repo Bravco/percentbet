@@ -6,7 +6,9 @@ export default defineNuxtConfig({
   modules: ["@nuxt/ui", "@nuxt/image", "nuxt-vuefire", "@pinia/nuxt"],
   css: ["~/assets/main.css"],
   runtimeConfig: {
+    openaiApiKey: process.env.OPENAI_API_KEY,
     stripeSecret: process.env.STRIPE_SECRET_KEY,
+    stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
     public: {
       WEB3FORMS_ACCESS_KEY: process.env.WEB3FORMS_ACCESS_KEY
     }

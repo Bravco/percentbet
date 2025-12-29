@@ -1,11 +1,12 @@
 export default defineEventHandler(async (event) => {
+    const config = useRuntimeConfig();
     const sig = getHeader(event, "stripe-signature");
     const body = await readRawBody(event);
     
     const stripeEvent = stripe.webhooks.constructEvent(
         body!,
         sig!,
-        process.env.STRIPE_WEBHOOK_SECRET!
+        config.stripeWebhookSecret
     );
 
     if (
