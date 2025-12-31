@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, addDoc, deleteDoc, query, orderBy, serverTimestamp } from "firebase/firestore";
+import { collection, doc, getDocs, addDoc, deleteDoc, query, where, orderBy, serverTimestamp, setDoc } from "firebase/firestore";
 
 
 export const usePredictionMarkets = defineStore("predictionMarkets", () => {
@@ -66,7 +66,6 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                         ...(polymarketData.endDate && {
                             endDate: new Date(polymarketData.endDate)
                         }),
-                        //endDate: new Date(polymarketData.endDate),
                         volume: polymarketData.volume,
                         closed: polymarketData.closed,
                         markets: normalizePolymarketMarkets(polymarketData.markets),
@@ -109,7 +108,6 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                 ...(polymarketData.endDate && {
                     endDate: new Date(polymarketData.endDate)
                 }),
-                //endDate: new Date(polymarketData.endDate),
                 volume: polymarketData.volume,
                 closed: polymarketData.closed,
                 markets: normalizePolymarketMarkets(polymarketData.markets),
@@ -141,22 +139,36 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
             }
 
             saveMarket(market);
-            predictionMarkets.value.forEach(pm => pm.selected = false);
-            predictionMarkets.value.unshift(market);
         } catch (error) {
             throw error;
         }
     };
 
     const saveMarket = async (market: PredictionMarket) => {
+        const existingIndex = predictionMarkets.value.findIndex(pm => pm.slug === market.slug);
+        if (existingIndex !== -1) predictionMarkets.value.splice(existingIndex, 1);
+        predictionMarkets.value.forEach(pm => pm.selected = false);
+        predictionMarkets.value.unshift(market);
+
         if (!predictionMarketsRef.value) return;
 
         try {
-            await addDoc(predictionMarketsRef.value, {
-                createdAt: serverTimestamp(),
-                slug: market.slug,
-                analysis: market.analysis
-            });
+            const q = query(predictionMarketsRef.value, where("slug", "==", market.slug));
+            const snap = await getDocs(q);
+
+            if (!snap.empty && snap.docs[0]) {
+                const existingDoc = snap.docs[0];
+                await setDoc(existingDoc.ref, {
+                    createdAt: serverTimestamp(),
+                    analysis: market.analysis
+                }, { merge: true });
+            } else {
+                await addDoc(predictionMarketsRef.value, {
+                    createdAt: serverTimestamp(),
+                    slug: market.slug,
+                    analysis: market.analysis
+                });
+            }
         } catch {
             toast.add({ title: "Failed to save analysis.", color: "error" });
         }
