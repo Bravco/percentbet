@@ -1,3 +1,4 @@
 export default (chance: number) => {
-    return `+${100 - Math.round(chance*100)}%`;
+  const value = 100 - Math.round(chance * 100);
+  return value <= 0 ? ">1%" : `+${value}%`;
 };

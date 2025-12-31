@@ -21,8 +21,7 @@ CRITICAL RULES (must follow exactly):
                 role: "user",
                 content: `
 Prediction market title: ${body.title}
-Description: ${body.description}
-End date: ${body.endDate}
+Description: ${body.description}${body.endDate ? `\nEnd Date: ${body.endDate.toDateString()}` : ""}
 
 AVAILABLE MARKETS (THESE ARE THE ONLY VALID IDS):
 ${body.markets.map((m: any) => `- marketId: "${m.id}" | title: "${m.title}"`).join("\n")}
@@ -37,7 +36,7 @@ Return ONLY this JSON:
   "marketId": "<exact marketId from list>",
   "confidence": <number>
 }
-`
+`.trim()
             }
         ]
     });

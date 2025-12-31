@@ -63,7 +63,10 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                         slug: m.slug,
                         title: polymarketData.title,
                         image: polymarketData.image,
-                        endDate: new Date(polymarketData.endDate),
+                        ...(polymarketData.endDate && {
+                            endDate: new Date(polymarketData.endDate)
+                        }),
+                        //endDate: new Date(polymarketData.endDate),
                         volume: polymarketData.volume,
                         closed: polymarketData.closed,
                         markets: normalizePolymarketMarkets(polymarketData.markets),
@@ -103,7 +106,10 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                 slug: slug,
                 title: polymarketData.title,
                 image: polymarketData.image,
-                endDate: new Date(polymarketData.endDate),
+                ...(polymarketData.endDate && {
+                    endDate: new Date(polymarketData.endDate)
+                }),
+                //endDate: new Date(polymarketData.endDate),
                 volume: polymarketData.volume,
                 closed: polymarketData.closed,
                 markets: normalizePolymarketMarkets(polymarketData.markets),
@@ -127,7 +133,7 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                     body: {
                         title: market.title,
                         description: polymarketData.description,
-                        endDate: market.endDate.toISOString(),
+                        endDate: market.endDate,
                         markets: market.markets
                     }
                 });

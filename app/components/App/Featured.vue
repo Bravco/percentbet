@@ -33,7 +33,7 @@
                         class="flex items-center justify-between"
                     >
                         <span class="text-sm">{{ m.title }}</span>
-                        <span class="font-medium">{{ Math.round(m.chance*100) }}%</span>
+                        <span class="font-medium">{{ formatChance(m.chance) }}</span>
                     </li>
                 </ul>
                 <UButton

@@ -93,14 +93,15 @@
         addMarket(slug)
             .catch((e: any) => {
                 if (e.statusCode === 429) { // Daily usage limit reached
-                    error.value = e.data.message ?? "Something went wrong";
+                    error.value = e.data?.message ?? "Something went wrong";
                     toast.add({
                         title: error.value,
                         description: isPremium.value ? undefined : "Upgrade to Premium",
                         color: "error"
                     });
                 } else {
-                    error.value = e.data.message ?? "Something went wrong";
+                    console.log(e);
+                    error.value = e.data?.message ?? "Something went wrong";
                     toast.add({ title: error.value, color: "error" });
                 }
             })

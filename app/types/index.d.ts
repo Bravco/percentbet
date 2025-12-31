@@ -14,7 +14,7 @@ interface PolymarketApiResponse {
     title: string;
     description: string;
     image: string;
-    endDate: string;
+    endDate?: string;
     volume: number;
     closed: boolean;
     markets: PolymarketApiMarket[];
@@ -30,7 +30,7 @@ interface PredictionMarket {
     slug: string;
     title: string;
     image: string;
-    endDate: Date;
+    endDate?: Date;
     volume: number;
     closed: boolean;
     markets: {

@@ -39,7 +39,7 @@
                             variant="soft"
                         />
                         <span class="text-sm text-muted">{{ formatVolume(predictionMarket.volume) }}</span>
-                        <div class="flex items-center gap-1 text-muted">
+                        <div v-if="predictionMarket.endDate" class="flex items-center gap-1 text-muted">
                             <UIcon name="i-lucide-clock"/>
                             <span class="text-sm">{{ predictionMarket.endDate.toDateString() }}</span>
                         </div>
@@ -108,7 +108,7 @@
                     <span
                         class="text-xl font-medium"
                         :class="{ 'text-primary': market.id == selectedMarket?.id }"
-                    >{{ Math.round(market.chance*100) }}%</span>
+                    >{{ formatChance(market.chance) }}</span>
                 </div>
             </div>
         </template>
