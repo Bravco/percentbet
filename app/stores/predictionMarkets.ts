@@ -133,7 +133,7 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                     body: {
                         title: market.title,
                         description: polymarketData.description,
-                        endDate: market.endDate,
+                        endDate: market.endDate?.toISOString(),
                         markets: market.markets
                     }
                 });
