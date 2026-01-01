@@ -10,7 +10,7 @@
             <UButton
                 @click="openBillingPortal"
                 :loading="billingLoading"
-                :disabled="billingLoading"
+                :disabled="billingLoading || !isPremium"
                 label="Manage subscription"
                 color="neutral"
                 class="w-fit lg:ms-auto cursor-pointer"

@@ -25,7 +25,6 @@ export default defineEventHandler(async (event) => {
         if (!snap.exists) {
             tx.set(usageRef, {
                 count: 1,
-                limit,
                 date: today,
                 createdAt: FieldValue.serverTimestamp(),
                 updatedAt: FieldValue.serverTimestamp()
@@ -36,7 +35,7 @@ export default defineEventHandler(async (event) => {
         const data = snap.data();
         if (!data) throw new Error("Unexpected: data missing");
 
-        if (data.count >= data.limit) {
+        if (data.count >= limit) {
             throw createError({
                 statusCode: 429,
                 statusMessage: "Daily usage limit reached"
