@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
         mode: "subscription",
         customer: stripeCustomerId,
         line_items: [
-            { price: "price_1SitQnFh0TZPSB7fnFzAbwH4", quantity: 1 }
+            { price: process.env.STRIPE_PRICE_ID, quantity: 1 }
         ],
         success_url: `${origin}/app`,
         cancel_url: `${origin}/settings/billing`,

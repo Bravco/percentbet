@@ -8,7 +8,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
         return navigateTo("/app");
     }
 
-    if (!user && to.name !== "auth") {
+    if (!user && to.path.startsWith("/app")) {
         return navigateTo("/auth");
     }
 });

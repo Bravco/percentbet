@@ -8,7 +8,7 @@
             <UNavigationMenu :items="items" variant="link"/>
 
             <template #right>
-                <UButton label="Sign in" :to="{ path: '/', hash: '#waitlist' }"/>
+                <UButton label="Sign in" to="/auth"/>
             </template>
 
             <template #body>
@@ -138,10 +138,12 @@
             label: "Legal",
             children: [
                 {
-                    label: "Terms of Service"
+                    label: "Terms of Service",
+                    to: "/terms-of-service"
                 },
                 {
-                    label: "Privacy Policy"
+                    label: "Privacy Policy",
+                    to: "/privacy-policy"
                 }
             ]
         },

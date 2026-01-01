@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   ssr: false,
-  modules: ["@nuxt/ui", "@nuxt/image", "nuxt-vuefire", "@pinia/nuxt"],
+  modules: ["@nuxt/ui", "@nuxt/image", "nuxt-vuefire", "@pinia/nuxt", "@nuxt/content"],
   css: ["~/assets/main.css"],
   runtimeConfig: {
     public: {

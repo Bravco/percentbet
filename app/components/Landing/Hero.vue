@@ -2,18 +2,9 @@
     <UPageHero :links="links" class="bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--ui-primary)_10%,transparent)_0%,transparent_70%)]">
         <template #headline>
             <UBadge
-                label="New"
+                label="Released on January 1st, 2026"
                 variant="soft"
                 color="secondary"
-            />
-            <UButton
-                label="Releasing in January 2026"
-                trailing-icon="i-lucide-arrow-right"
-                size="md"
-                variant="link"
-                color="neutral"
-                class="underline underline-offset-2 cursor-pointer"
-                :to="{ path: '/', hash: '#waitlist' }"
             />
         </template>
         <template #title>
@@ -42,7 +33,7 @@
     const links = ref<ButtonProps[]>([
         {
             label: "Get started - for free",
-            to: { path: "/", hash: "#waitlist" },
+            to: "/auth",
             trailingIcon: "i-lucide-arrow-right",
             size: "lg"
         }

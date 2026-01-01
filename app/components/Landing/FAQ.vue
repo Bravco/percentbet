@@ -26,17 +26,17 @@
         {
             icon: "i-lucide-circle-question-mark",
             label: "Why should I use %bet?",
-            content: "With %bet there is reasoning behind every trade you take, not just gambling your way towards generational wealth."
+            content: "With %bet there is reasoning behind every trade you take, not just gambling your way towards generational wealth. 😅"
         },
         {
             icon: "i-lucide-circle-question-mark",
             label: "Will I have 100% win rate?",
-            content: "100% win rate is impossible and not even the best traders have it. We are just increasing the odds of winning."
+            content: "100% win rate is impossible and not even the best traders have it. %bet just increases the odds of winning."
         },
         {
             icon: "i-lucide-circle-question-mark",
-            label: "Does it work on all prediction markets?",
-            content: "Sadly, we do not offer price predictions for any financial assets."
+            label: "Does it work for sports?",
+            content: "Sadly, we do not offer sports data fetching. Yet!"
         }
     ]);
 </script>

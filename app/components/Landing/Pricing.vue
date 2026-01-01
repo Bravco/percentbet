@@ -7,7 +7,11 @@
     >
         <template #body>
             <div class="flex flex-col items-center gap-8">
-                <span class="text-muted font-medium">Join the waitlist for -20% discount on release!</span>
+                <UBadge
+                    label="Waitlisted users have -20% discount"
+                    color="success"
+                    variant="soft"
+                />
                 <UPricingPlans class="w-full">
                     <UPricingPlan
                         v-for="(plan, index) in plans"
@@ -42,7 +46,7 @@
             button: {
                 label: "Get started",
                 color: "neutral",
-                to: { path: "/", hash: "#waitlist" }
+                to: "/auth"
             },
             ui: { featureIcon: "text-secondary" }
         },
@@ -51,18 +55,18 @@
             description: "Full-access to all the features.",
             class: "ring-primary bg-primary/10",
             badge: "Advanced",
-            price: "$??.??",
+            price: "$29.99",
             billingCycle: "/month",
             billingPeriod: "billed monthly",
             features: [
                 "Advanced AI Model",
-                "Unlimited Usage",
+                "50 Analysis per day",
                 "Confidence Score",
                 "Tracking Prediction Markets"
             ],
             button: {
                 label: "Upgrade now",
-                to: { path: "/", hash: "#waitlist" }
+                to: "/auth"
             }
         }
     ]);

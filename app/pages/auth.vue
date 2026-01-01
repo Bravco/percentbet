@@ -40,8 +40,8 @@
                 <template #password-hint v-if="!isSignUp">
                     <ULink @click="forgotPassword = true" class="text-primary font-medium cursor-pointer">Forgot password?</ULink>
                 </template>
-                <template #footer v-if="isSignUp">
-                    By signing in, you agree to our <ULink to="" class="text-primary font-medium">Terms of Service</ULink>.
+                <template #footer>
+                    By signing in, you agree to our <ULink to="/terms-of-service" class="text-primary font-medium">Terms of Service</ULink>.
                 </template>
             </UAuthForm>
         </UPageCard>

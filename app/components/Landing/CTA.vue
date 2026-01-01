@@ -1,12 +1,12 @@
 <template>
     <UPageSection id="waitlist">
         <UPageCTA
-            description="Get latest updates on %bet and be the first one to try it out!"
+            description="Get discounts & latest updates on %bet and be the first one to try them out!"
             variant="subtle"
         >
             <template #title>
-                <div class="mb-3 text-base text-secondary font-semibold">January 2026</div>
-                Join the waitlist
+                <div class="mb-3 text-base text-secondary font-semibold">New Model Coming Soon... 👀</div>
+                Subscribe for newsletter
             </template>
             <template #links>
                 <UForm :schema="schema" :state="state" @submit="onSubmit" class="flex flex-wrap gap-4">
@@ -15,7 +15,7 @@
                     </UFormField>
                     <UButton
                         type="submit"
-                        label="Submit"
+                        label="Subscribe"
                         :disabled="loading"
                         class="cursor-pointer"
                         :loading="loading"
