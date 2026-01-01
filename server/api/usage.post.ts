@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     const userDoc = await adminFirestore.doc(`users/${uid}`).get();
     const userData = userDoc.data();
     const isPremium = Array.isArray(userData?.entitlements) && userData.entitlements.includes("premium");
-    const limit = isPremium ? 100 : 1;
+    const limit = isPremium ? 50 : 1;
 
     await adminFirestore.runTransaction(async (tx) => {
         const snap = await tx.get(usageRef);

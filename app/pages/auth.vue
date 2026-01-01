@@ -51,7 +51,7 @@
 <script lang="ts" setup>
     import * as v from "valibot";
     import type { FormSubmitEvent, AuthFormField, ButtonProps } from "@nuxt/ui";
-    import {createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail } from "firebase/auth";
+    import {createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
     definePageMeta({ layout: "landing" });
 

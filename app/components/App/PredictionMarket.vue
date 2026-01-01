@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <span v-if="selectedMarket" class="sm:ml-auto text-xl font-medium text-success">
-                    {{ formatEdge(selectedMarket.chance) }}
+                    {{ formatProfit(selectedMarket.chance) }}
                 </span>
             </div>
             <div class="flex items-center">
@@ -75,8 +75,8 @@
                     color="primary"
                 />
                 <AppValueCard
-                    label="Edge"
-                    :value="formatEdge(selectedMarket.chance)"
+                    label="Profit"
+                    :value="formatProfit(selectedMarket.chance)"
                     icon="i-lucide-dollar-sign"
                     color="success"
                 />

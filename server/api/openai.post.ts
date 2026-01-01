@@ -1,8 +1,8 @@
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);
     const completion = await openai.chat.completions.create({
-        model: "gpt-5-mini",
-        temperature: 1,
+        model: "gpt-5.2",
+        temperature: 0.1,
         messages: [
             {
                 role: "system",
