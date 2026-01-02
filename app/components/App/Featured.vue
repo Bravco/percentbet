@@ -1,5 +1,5 @@
 <template>
-    <div class="sticky top-0 flex flex-col gap-2">
+    <div class="sticky -top-5 -mt-5 pt-5 flex flex-col gap-2 bg-default">
         <h2 class="flex items-center gap-1 font-medium">
             <span>Trending</span>
             <UIcon name="i-lucide-trending-up"/>
