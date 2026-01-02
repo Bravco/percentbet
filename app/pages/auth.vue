@@ -61,13 +61,14 @@
     const isSignUp = ref(false);
     const forgotPassword = ref(false);
 
+    const googleProvider = new GoogleAuthProvider();
     const providers: ButtonProps[] = [{
         label: "Sign in with Google",
         icon: "i-devicon-google",
         class: "cursor-pointer",
         onClick: () => {
             if (!auth) return;
-            signInWithPopup(auth, new GoogleAuthProvider()).catch(() => {
+            signInWithPopup(auth, googleProvider).catch(() => {
                 toast.add({ title: "Something went wrong!", description: "Failed to sign in with Google.", color: "error" });
             });
         }
