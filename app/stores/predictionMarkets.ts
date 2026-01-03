@@ -120,7 +120,7 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                     doAnalysis = false;
                     market.analysis = {
                         marketId: m.id,
-                        confidence: 95
+                        confidence: 99
                     };
                 }
             });
