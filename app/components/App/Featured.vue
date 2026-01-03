@@ -61,7 +61,7 @@
     }>();
 
     const { normalizePolymarketMarkets } = usePredictionMarkets();
-    const { data: markets } = await useFetch<PolymarketApiResponse[], any[]>("/api/featured");
+    const { data: markets } = await useFetch<PolymarketApiResponse[], any[]>("/api/featured", { lazy: true });
 
     function onAnalyze(slug: string) {
         if (props.loading) return;
