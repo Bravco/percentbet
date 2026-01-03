@@ -9,7 +9,7 @@
         </template>
         <template #body>
             <div class="content-start grid grid-cols-1 md:grid-cols-[minmax(0,42rem)_1fr] gap-4 sm:gap-6">
-                <div class="flex flex-col gap-4 sm:gap-6">
+                <div class="flex flex-col">
                     <UForm @submit="onSubmit" class="space-y-2">
                         <UFormField
                             label="Polymarket Url"
@@ -17,13 +17,16 @@
                             :error="error">
                             <UInput v-model="url" placeholder="https://polymarket.com/event/..." class="w-full"/>
                         </UFormField>
-                        <UButton
-                            type="submit"
-                            label="Analyze"
-                            :disabled="loading"
-                            :loading="loading"
-                            class="cursor-pointer"
-                        />
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <UButton
+                                type="submit"
+                                label="Analyze"
+                                :disabled="loading"
+                                :loading="loading"
+                                class="cursor-pointer"
+                            />
+                            <UTabs v-model="tab" :content="false" :items="tabs" size="xs"/>
+                        </div>
                         <UProgress
                             v-if="loading"
                             v-model="loadingProgress"
@@ -31,7 +34,7 @@
                             class="w-full"
                         />
                     </UForm>
-                    <USeparator/>
+                    <USeparator class="py-4"/>
                     <div v-if="fetchingMarkets" class="flex flex-col gap-4 sm:gap-6">
                         <div v-for="_ in 4" class="flex items-center gap-4">
                             <USkeleton class="h-16 w-16 rounded-md"/>
@@ -63,6 +66,8 @@
 </template>
 
 <script lang="ts" setup>
+    import type { TabsItem } from "@nuxt/ui";
+
     definePageMeta({ layout: "dashboard" });
     
     const store = usePredictionMarkets();
@@ -75,20 +80,32 @@
     const error = ref<string | undefined>(undefined); 
     const loading = ref<boolean>(false);
     const loadingProgress = ref<number>(0);
-    let progressInterval: NodeJS.Timeout | null = null;
+    const tab = ref<string>("outcome");
 
     const slug = computed<string | undefined>(() => url.value.split("/event/")[1]?.split("?")[0]);
 
-    function analyzeMarket(slug: string) {
-        error.value = undefined;
-        loading.value = true;
-        loadingProgress.value = 0;
+    const tabs = [
+        {
+            label: "Outcome",
+            value: "outcome"
+        },
+        {
+            label: "Edge",
+            value: "edge",
+            disabled: true
+        }
+    ] satisfies TabsItem[];
 
-        progressInterval = setInterval(() => {
+    function analyzeMarket(slug: string) {
+        let progressInterval = setInterval(() => {
             if (loadingProgress.value < 90) {
                 loadingProgress.value += Math.random()*8;
             }
         }, 400);
+
+        error.value = undefined;
+        loading.value = true;
+        loadingProgress.value = 0;
 
         addMarket(slug)
             .catch((e: any) => {
@@ -106,7 +123,7 @@
                 }
             })
             .finally(() => {
-                if (progressInterval) clearInterval(progressInterval);
+                clearInterval(progressInterval);
                 loading.value = false;
             });
     }
