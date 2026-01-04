@@ -45,8 +45,11 @@
                         </div>
                     </div>
                 </div>
-                <span v-if="selectedMarket" class="sm:ml-auto text-xl font-medium text-success">
-                    {{ formatProfit(selectedMarket.chance) }}
+                <span v-if="analysisMode === 'outcome' && selectedMarket" class="sm:ml-auto text-xl font-medium text-success">
+                    {{ formatROI(selectedMarket.chance) }}
+                </span>
+                <span v-else-if="analysisMode === 'edge' && bestMarket" class="sm:ml-auto text-xl font-medium text-success">
+                    {{ formatEdge(bestMarket.difference) }}
                 </span>
             </div>
             <div class="flex items-center">
@@ -67,74 +70,22 @@
             </div>
         </div>
         <template #content>
-            <div v-if="predictionMarket.analysis && selectedMarket" class="grid sm:grid-cols-3 grid-cols-1 items-center gap-4">
-                <AppValueCard
-                    label="Bet"
-                    :value="selectedMarket.title"
-                    icon="i-lucide-bot"
-                    color="primary"
-                />
-                <AppValueCard
-                    label="Profit"
-                    :value="formatProfit(selectedMarket.chance)"
-                    icon="i-lucide-dollar-sign"
-                    color="success"
-                />
-                <AppValueCard
-                    label="Confidence Score"
-                    :value="`${predictionMarket.analysis.confidence ?? 0}%`"
-                    icon="i-lucide-smile"
-                    color="tertiary"
-                />
-            </div>
-            <div class="grid sm:grid-cols-3 grid-cols-2 items-center gap-2 py-2 uppercase text-xs text-muted">
-                <span>Outcome</span>
-                <span class="sm:justify-self-center justify-self-end">% Chance</span>
-                <span class="sm:justify-self-end sm:block hidden">Prices</span>
-            </div>
-            <div v-for="market in predictionMarket.markets" :key="market.id">
-                <USeparator/>
-                <div class="grid sm:grid-cols-3 grid-cols-2 items-center gap-2 py-2">
-                    <div>
-                        <h2
-                            class="text-lg font-medium"
-                            :class="{ 'text-primary': market.id == selectedMarket?.id }"
-                        >{{ market.title }}</h2>
-                        <span
-                            v-if="market.volume"
-                            class="text-sm"
-                            :class="market.id == selectedMarket?.id ? 'text-primary/80' : 'text-muted'"
-                        >{{ formatVolume(market.volume) }}</span>
-                    </div>
-                    <span
-                        class="sm:justify-self-center justify-self-end text-xl font-medium"
-                        :class="{ 'text-primary': market.id == selectedMarket?.id }"
-                    >{{ formatChance(market.chance) }}</span>
-                    <div class="w-full sm:justify-self-end sm:col-span-1 col-span-2 flex items-center gap-2">
-                        <UBadge
-                            :label="formatYesPrice(market.chance)"
-                            variant="soft"
-                            color="success"
-                            size="lg"
-                            class="w-full justify-center"
-                        />
-                        <UBadge
-                            :label="formatNoPrice(market.chance)"
-                            variant="soft"
-                            color="error"
-                            size="lg"
-                            class="w-full justify-center"
-                        />
-                    </div>
-                </div>
-            </div>
+            <AppOutcomeContent
+                v-if="analysisMode === 'outcome'"
+                :prediction-market="predictionMarket"
+                :selected-market="selectedMarket"
+            />
+            <AppEdgeContent
+                v-else-if="analysisMode === 'edge'"
+                :prediction-market="predictionMarket"
+                :combined-market-data="combinedMarketData"
+                :best-market="bestMarket"
+            />
         </template>
     </UCollapsible>
 </template>
 
 <script lang="ts" setup>
-    const { deleteMarket } = usePredictionMarkets();
-
     const props = defineProps<{
         predictionMarket: PredictionMarket
     }>();
@@ -143,13 +94,41 @@
         (e: "update:selected", value: boolean): void
     }>();
 
+    const { deleteMarket } = usePredictionMarkets();
+
+    const analysisMode = useState("analysisMode");
     const open = ref<boolean>(false);
 
     const selectedMarket = computed(() => {
-        const index = props.predictionMarket.analysis?.marketId;
+        const index = props.predictionMarket.analysis?.outcomeMarketId;
         if (index === undefined) return null;
         return props.predictionMarket.markets
-            .find(m => m.id === props.predictionMarket.analysis?.marketId) ?? null;
+            .find(m => m.id === props.predictionMarket.analysis?.outcomeMarketId) ?? null;
+    });
+
+    const combinedMarketData = computed(() => {
+        return props.predictionMarket.markets.map(market => {
+            const prediction = props.predictionMarket.analysis?.predictions.find(p => p.marketId === market.id);
+            const predictionChance = prediction?.chance ?? 0;
+            const difference = predictionChance - Math.round(market.chance*100);
+            return {
+                ...market,
+                predictionChance,
+                difference
+            };
+        });
+    });
+
+    const bestMarket = computed(() => {
+        const data = combinedMarketData.value;
+
+        if (data.length === 2) {
+            return data.find(market => market.difference > 0) || data[0];
+        }
+
+        return data.reduce((prev, curr) => 
+            Math.abs(curr.difference) > Math.abs(prev.difference) ? curr : prev
+        );
     });
 
     const predictionMarketUrl = computed(() => `https://polymarket.com/event/${props.predictionMarket.slug}`);

@@ -25,7 +25,7 @@
                                 :loading="loading"
                                 class="cursor-pointer"
                             />
-                            <UTabs v-model="tab" :content="false" :items="tabs" size="xs"/>
+                            <UTabs v-model="analysisMode" :content="false" :items="tabs" size="xs"/>
                         </div>
                         <UProgress
                             v-if="loading"
@@ -76,11 +76,11 @@
     const { isPremium } = useUserData();
     const toast = useToast();
 
+    const analysisMode = useState<"outcome" | "edge">("analysisMode", () => "outcome");
     const url = ref<string>("");
     const error = ref<string | undefined>(undefined); 
     const loading = ref<boolean>(false);
     const loadingProgress = ref<number>(0);
-    const tab = ref<string>("outcome");
 
     const slug = computed<string | undefined>(() => url.value.split("/event/")[1]?.split("?")[0]);
 
@@ -91,8 +91,7 @@
         },
         {
             label: "Edge",
-            value: "edge",
-            disabled: true
+            value: "edge"
         }
     ] satisfies TabsItem[];
 

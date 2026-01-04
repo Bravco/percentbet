@@ -114,27 +114,24 @@ export const usePredictionMarkets = defineStore("predictionMarkets", () => {
                 selected: true
             };
 
-            let doAnalysis = true;
-            market.markets.forEach(m => {
-                if (m.chance >= 0.98) {
-                    doAnalysis = false;
-                    market.analysis = {
-                        marketId: m.id,
-                        confidence: 99
-                    };
+            const analysis = await $fetch<MarketAnalysis>("/api/openai", {
+                method: "POST",
+                body: {
+                    title: market.title,
+                    description: polymarketData.description,
+                    endDate: market.endDate?.toISOString(),
+                    markets: market.markets
                 }
             });
 
-            if (doAnalysis) {
-                const analysis = await $fetch<MarketAnalysis>("/api/openai", {
-                    method: "POST",
-                    body: {
-                        title: market.title,
-                        description: polymarketData.description,
-                        endDate: market.endDate?.toISOString(),
-                        markets: market.markets
-                    }
-                });
+            let highChanceMarket = market.markets.find(m => m.chance >= 0.98);
+            if (highChanceMarket) {
+                market.analysis = {
+                    ...analysis,
+                    outcomeMarketId: highChanceMarket.id,
+                    outcomeConfidence: 99
+                };
+            } else {
                 market.analysis = analysis;
             }
 

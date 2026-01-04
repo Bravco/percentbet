@@ -21,8 +21,13 @@ interface PolymarketApiResponse {
 }
 
 interface MarketAnalysis {
-    marketId: string;
-    confidence: number; // 0-100
+    outcomeMarketId: string;
+    outcomeConfidence: number; // 0-100
+    predictionConfidence: number; // 0-100
+    predictions: {
+        marketId: string;
+        chance: number; // 0-100
+    }[];
 }
 
 interface PredictionMarket {

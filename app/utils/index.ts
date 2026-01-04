@@ -10,7 +10,7 @@ export const formatChance = (chance: number) => {
   return value <= 0 ? ">1%" : `${value}%`;
 };
 
-export const formatProfit = (chance: number) => {
+export const formatROI = (chance: number) => {
   const value = Math.round((1 - chance) / chance * 100);
   return value <= 0 ? ">1%" : `+${value}%`;
 };
@@ -21,4 +21,12 @@ export const formatYesPrice = (chance: number) => {
 
 export const formatNoPrice = (chance: number) => {
   return `No ${((1-chance) * 100).toFixed(1)}¢`;
+};
+
+export const formatDifference = (difference: number) => {
+  return `${Math.abs(difference)}%`;
+};
+
+export const formatEdge = (difference: number) => {
+  return "+" + formatDifference(difference);
 };
