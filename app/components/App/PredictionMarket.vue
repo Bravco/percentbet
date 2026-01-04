@@ -119,17 +119,9 @@
         });
     });
 
-    const bestMarket = computed(() => {
-        const data = combinedMarketData.value;
-
-        if (data.length === 2) {
-            return data.find(market => market.difference > 0) || data[0];
-        }
-
-        return data.reduce((prev, curr) => 
-            Math.abs(curr.difference) > Math.abs(prev.difference) ? curr : prev
-        );
-    });
+    const bestMarket = computed(() => combinedMarketData.value.reduce((prev, curr) => 
+        Math.abs(curr.difference) > Math.abs(prev.difference) ? curr : prev
+    ));
 
     const predictionMarketUrl = computed(() => `https://polymarket.com/event/${props.predictionMarket.slug}`);
 
