@@ -16,6 +16,7 @@
                     <UNavigationMenu :items="items" orientation="vertical" variant="link" class="-mx-2.5"/>
                     <div class="flex gap-x-1.5 -ml-1.5">
                         <UButton icon="i-lucide-twitter" variant="ghost" color="neutral" target="_blank" to="https://x.com/PercentBet"/>
+                        <UButton icon="i-lucide-instagram" variant="ghost" color="neutral" target="_blank" to="https://instagram.com/percentbetcom"/>
                         <UColorModeButton class="cursor-pointer"/>
                     </div>
                 </div>
@@ -61,6 +62,7 @@
 
             <template #right>
                 <UButton icon="i-lucide-twitter" variant="ghost" color="neutral" target="_blank" to="https://x.com/PercentBet"/>
+                <UButton icon="i-lucide-instagram" variant="ghost" color="neutral" target="_blank" to="https://instagram.com/percentbetcom"/>
                 <UColorModeButton class="cursor-pointer"/>
             </template>
         </UFooter>
@@ -153,6 +155,11 @@
                 {
                     label: "Twitter",
                     to: "https://x.com/PercentBet",
+                    target: "_blank"
+                },
+                {
+                    label: "Instagram",
+                    to: "https://instagram.com/percentbetcom",
                     target: "_blank"
                 }
             ]

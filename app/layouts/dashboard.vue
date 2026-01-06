@@ -117,9 +117,14 @@
             to: "https://x.com/PercentBet",
             target: "_blank"
         }, {
+            label: "Instagram",
+            icon: "i-lucide-instagram",
+            to: "https://instagram.com/percentbetcom",
+            target: "_blank"
+        }, {
             label: "Help & Support",
             icon: "i-lucide-info",
-            to: "",
+            to: "mailto:support@percentbet.com",
             target:"_blank"
         }]
     ] satisfies NavigationMenuItem[][];
