@@ -28,6 +28,7 @@ export default defineEventHandler(async (event) => {
         line_items: [
             { price: process.env.STRIPE_PRICE_ID, quantity: 1 }
         ],
+        allow_promotion_codes: true,
         success_url: `${origin}/app`,
         cancel_url: `${origin}/settings/billing`,
     });
