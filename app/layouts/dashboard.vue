@@ -52,7 +52,8 @@
                     >
                         <template #default v-if="!collapsed">
                             <div class="flex flex-col items-start truncate">
-                                <span>{{ user?.displayName }}</span>
+                                <span v-if="user?.displayName">{{ user.displayName }}</span>
+                                <span v-else>Logged as</span>
                                 <span class="text-muted text-xs">{{ user?.email }}</span>
                             </div>
                         </template>
@@ -61,7 +62,8 @@
                         <div class="w-full flex items-center font-semibold p-2.5 text-sm gap-1.5 border-b border-muted">
                             <UAvatar v-bind="avatar"/>
                             <div class="flex flex-col items-start">
-                                <span>{{ user?.displayName }}</span>
+                                <span v-if="user?.displayName">{{ user.displayName }}</span>
+                                <span v-else>Logged as</span>
                                 <span class="text-muted text-xs truncate">{{ user?.email }}</span>
                             </div>
                         </div>
