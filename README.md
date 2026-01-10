@@ -1,8 +1,8 @@
 # PercentBet
 
-**%bet** — spots mispriced prediction markets, determine the most likely outcome and gives real odds. Powered by AI.
+**%bet** is an AI-powered SaaS web app, which spots mispriced prediction markets, determine the most likely outcome and gives real odds.
 
-Try [PercentBet](https://percentbet.com) for free!
+You can try [PercentBet](https://percentbet.com) for free!
 
 ## Disclaimer
 
