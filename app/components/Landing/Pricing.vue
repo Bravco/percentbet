@@ -56,6 +56,7 @@
             class: "ring-primary bg-primary/10",
             badge: "Advanced",
             price: "$29.99",
+            discount: "$19.99",
             billingCycle: "/month",
             billingPeriod: "billed monthly",
             features: [
